@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security vulnerability
+    url: https://github.com/rapture-sh/toolhut.io/security/advisories/new
+    about: Report privately, not as a public issue.
+  - name: Rapture.sh
+    url: https://rapture.sh
+    about: The wider project toolhut belongs to.

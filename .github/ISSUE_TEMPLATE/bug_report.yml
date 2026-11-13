@@ -1,0 +1,34 @@
+name: Bug report
+description: Something in a tool is wrong or broken
+labels: ["bug"]
+body:
+  - type: input
+    id: tool
+    attributes:
+      label: Which tool
+      placeholder: Base64 encoder & decoder
+    validations:
+      required: true
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: What you did, what you expected, what you got instead.
+    validations:
+      required: true
+
+  - type: textarea
+    id: input
+    attributes:
+      label: Input that triggers it
+      description: Only if you can share it, and never paste anything private.
+      render: text
+
+  - type: input
+    id: browser
+    attributes:
+      label: Browser and OS
+      placeholder: Firefox 142 on Windows 11
+    validations:
+      required: true

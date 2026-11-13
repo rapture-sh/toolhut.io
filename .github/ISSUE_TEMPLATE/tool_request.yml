@@ -1,0 +1,44 @@
+name: Tool request
+description: Suggest a tool for toolhut
+labels: ["tool request"]
+body:
+  - type: input
+    id: tool
+    attributes:
+      label: The tool
+      placeholder: JSON to CSV converter
+    validations:
+      required: true
+
+  - type: textarea
+    id: use-case
+    attributes:
+      label: Who needs it and when
+      description: >
+        The concrete situation someone is in when they reach for this. Tools here should
+        be broadly useful rather than built for one niche workflow.
+    validations:
+      required: true
+
+  - type: textarea
+    id: today
+    attributes:
+      label: What people use today
+      description: >
+        Which site or app do people currently paste their data into to do this? Linking
+        it helps show why a local version is worth having.
+
+  - type: checkboxes
+    id: client-side
+    attributes:
+      label: Client-side check
+      options:
+        - label: This works entirely in the browser, with no server, API key or account
+          required: true
+
+  - type: checkboxes
+    id: build-it
+    attributes:
+      label: Would you build it?
+      options:
+        - label: I'd like to implement this myself
