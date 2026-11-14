@@ -18,6 +18,21 @@ const names = () =>
     .getAllByRole("option")
     .map((option) => option.textContent);
 
+/** The field only takes the cursor where there is a real pointer. */
+function withFinePointer() {
+  const original = window.matchMedia;
+  window.matchMedia = ((query: string) => ({
+    ...original(query),
+    matches: true,
+  })) as typeof window.matchMedia;
+
+  return {
+    restore: () => {
+      window.matchMedia = original;
+    },
+  };
+}
+
 describe("<ToolExplorer />", () => {
   beforeEach(() => {
     push.mockClear();
@@ -103,6 +118,31 @@ describe("<ToolExplorer />", () => {
     expect(
       screen.getByRole("link", { name: /Case converter/ }),
     ).toBeInTheDocument();
+  });
+
+  it("takes the cursor on a plain visit, so you can type straight away", () => {
+    const pointer = withFinePointer();
+    render(<ToolExplorer />);
+
+    expect(
+      screen.getByRole("combobox", { name: "Search tools" }),
+    ).toHaveFocus();
+    expect(suggestions()).toBeInTheDocument();
+    pointer.restore();
+  });
+
+  it("stays out of the way when the address already carries a search", () => {
+    window.history.replaceState(null, "", "/?q=base64");
+    const pointer = withFinePointer();
+    render(<ToolExplorer />);
+
+    expect(
+      screen.getByRole("combobox", { name: "Search tools" }),
+    ).not.toHaveFocus();
+    expect(
+      screen.queryByRole("listbox", { name: "Tool suggestions" }),
+    ).not.toBeInTheDocument();
+    pointer.restore();
   });
 
   it("starts from the words already in the address", async () => {

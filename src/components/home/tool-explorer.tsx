@@ -57,7 +57,11 @@ export function ToolExplorer() {
   const { query, setQuery } = search;
 
   useEffect(() => {
-    if (shouldFocusOnLoad()) {
+    // Arriving with a search already in the address means the answer is on
+    // screen, so the list would only cover it up.
+    const asked = new URLSearchParams(window.location.search).get("q");
+
+    if (!asked && shouldFocusOnLoad()) {
       field.current?.focus({ preventScroll: true });
       setOpen(true);
     }
