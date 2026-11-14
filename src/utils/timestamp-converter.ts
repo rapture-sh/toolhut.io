@@ -79,8 +79,17 @@ function zonedParts(date: Date, timeZone: string): ZonedParts {
     hour: number("hour"),
     minute: number("minute"),
     second: number("second"),
-    offsetName: found.get("timeZoneName") ?? "",
+    offsetName: tidyOffset(found.get("timeZoneName") ?? ""),
   };
+}
+
+/**
+ * Browsers disagree on how to write no offset at all: some say `GMT`, others
+ * `GMT+0` or `GMT+00:00`. They all mean the same thing, so they all read the
+ * same here.
+ */
+function tidyOffset(name: string): string {
+  return /^GMT[+-]0{1,2}(:00)?$/.test(name) ? "GMT" : name;
 }
 
 /**

@@ -130,6 +130,13 @@ describe("relativePhrase", () => {
 });
 
 describe("describeInstant", () => {
+  it("should write the same zone label whatever the browser calls no offset", () => {
+    const date = new Date("2024-03-01T09:30:00.000Z");
+
+    expect(describeInstant(date, date, "UTC").local).toContain("(GMT)");
+    expect(describeInstant(date, date, "UTC").local).not.toContain("GMT+");
+  });
+
   const now = new Date("2024-03-01T12:00:00Z");
   const date = new Date("2024-03-01T09:30:00Z");
 
@@ -138,6 +145,7 @@ describe("describeInstant", () => {
 
     expect(described.iso).toBe("2024-03-01T09:30:00.000Z");
     expect(described.utc).toBe("Fri, 01 Mar 2024 09:30:00 GMT");
+    // Some browsers write GMT+0 for the same thing, which is tidied away.
     expect(described.local).toBe("2024-03-01 09:30:00 (GMT)");
     expect(described.relative).toBe("2 hours ago");
     expect(described.seconds).toBe(date.getTime() / 1000);
