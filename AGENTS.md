@@ -63,9 +63,14 @@ src/
     tools/<slug>-tool.tsx     # the client component of one tool
   hooks/                      # reusable client hooks
     use-copy-to-clipboard.ts
+    use-image-file.ts         # decodes a picked image once
   lib/
     tools/registry.ts         # the list of tools (single source of truth)
     tools/types.ts            # Tool metadata type and categories
+    download.ts               # hand a blob to the browser
+    clipboard.ts              # put an image on the clipboard
+    read-file.ts              # what a dropped file is, and its text
+    image/canvas.ts           # decode, draw, resize and encode
   utils/
     <slug>.ts                 # the pure logic of one tool
 
@@ -82,7 +87,9 @@ Where things go:
 - `utils/` is pure functions: input in, output out, no React and no DOM. A tool's real
   work lives here, and so does most of the test coverage.
 - `hooks/` is reusable client hooks, anything stateful shared between components.
-- `lib/` is app-level modules. Right now that is the tool registry and its types.
+- `lib/` is app-level modules, including the glue that needs the DOM. Canvas work,
+  downloads and the clipboard live here, so `utils/` can stay pure and testable. A
+  tool that works on pixels keeps its maths in `utils/` and its drawing in `lib/`.
 - `components/` is UI. A tool's own component goes in `components/tools/`.
 - `app/` is routes and nothing else. Keep route files thin.
 - `components/sections/` is the tail every page carries: why local, how it works, the
@@ -105,6 +112,31 @@ Where things go:
 The base64 tool is the reference implementation, so copy its shape:
 `src/utils/base64.ts`, `src/components/tools/base64-tool.tsx` and
 `src/app/tools/base64/page.tsx`.
+
+A tool is `planned` in the registry until all four files exist. A `planned` tool shows
+on the home page as a card you cannot click, which is what the registry tests check.
+
+## Shared tool parts
+
+Reuse these rather than building another one. They are what makes every tool feel like
+the same site.
+
+- `components/tools/tool-io.tsx`: `ToolPanes`, `ToolField`, `ToolTextarea`,
+  `ToolOutput`, `ToolOptions`, `Segmented`, `ToolSlider`, `ToolNumber`, `CopyButton`.
+- `components/tools/tool-actions.tsx`: `FileActions`, the download and copy pair.
+- `components/tools/drop-zone.tsx`: `DropZone`, the overlay a field shows while a file
+  is held over it.
+- `components/tools/image-input.tsx`: `ImageInput`, how every image tool takes its
+  picture, with `useImageFile` for the decoding.
+
+Two rules come with them:
+
+- **Every input takes a file.** Drag and drop onto the field, and paste where that makes
+  sense. `ToolTextarea` already does this, and `ImageInput` handles both.
+- **Download and copy, always together.** Anything a tool produces can be saved or
+  copied, through `FileActions`. Browsers only accept PNG on the clipboard, so copying
+  an image hands over a PNG whatever the chosen format, and a zip is download only.
+  Say so in the UI rather than letting it surprise someone.
 
 ## Code style
 

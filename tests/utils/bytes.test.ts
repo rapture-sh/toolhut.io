@@ -1,5 +1,11 @@
 import { describe, expect, it } from "vitest";
-import { toBase64, toBase64Url, toHex, wrapLines } from "~/utils/bytes";
+import {
+  formatBytes,
+  toBase64,
+  toBase64Url,
+  toHex,
+  wrapLines,
+} from "~/utils/bytes";
 
 const bytes = (...values: number[]) => new Uint8Array(values);
 
@@ -37,5 +43,31 @@ describe("wrapLines", () => {
 
   it("leaves a short value on one line", () => {
     expect(wrapLines("abc", 64)).toBe("abc");
+  });
+});
+
+describe("formatBytes", () => {
+  it("leaves a small count in plain bytes", () => {
+    expect(formatBytes(512)).toBe("512 B");
+  });
+
+  it("switches unit at a kilobyte", () => {
+    expect(formatBytes(1024)).toBe("1 KB");
+    expect(formatBytes(1536)).toBe("1.5 KB");
+  });
+
+  it("drops the decimal once the number is big enough to read", () => {
+    expect(formatBytes(1024 * 48)).toBe("48 KB");
+  });
+
+  it("reaches megabytes and gigabytes", () => {
+    expect(formatBytes(1024 * 1024 * 2.5)).toBe("2.5 MB");
+    expect(formatBytes(1024 ** 3 * 3)).toBe("3 GB");
+  });
+
+  it("answers sensibly for nothing and for nonsense", () => {
+    expect(formatBytes(0)).toBe("0 B");
+    expect(formatBytes(-5)).toBe("0 B");
+    expect(formatBytes(Number.NaN)).toBe("0 B");
   });
 });

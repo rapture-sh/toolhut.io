@@ -55,7 +55,6 @@ Then open [http://localhost:3000](http://localhost:3000).
 | `pnpm test` | Unit tests |
 | `pnpm typecheck` | TypeScript, no emit |
 | `pnpm lint` | Biome lint and format check |
-| `pnpm icons` | Regenerate the app icons from the mark |
 
 ## How it is put together
 
@@ -64,7 +63,7 @@ src/
   app/                 # routes
   components/          # shared UI, with components/tools/ for each tool
   config/              # fonts and site wide values
-  lib/tools/           # the registry, its types and the tag colours
+  lib/                 # the registry, plus the glue that needs the DOM
   utils/               # the pure logic of every tool
 tests/                 # mirrors src/, one test file per module
 ```
