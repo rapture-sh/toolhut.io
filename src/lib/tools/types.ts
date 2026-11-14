@@ -1,37 +1,30 @@
-/**
- * Metadata for a single tool.
- *
- * Every tool in toolhut runs fully in the browser: no request may leave the
- * page with user input in it. See AGENTS.md for the rules a tool must follow.
- */
-export interface Tool {
-  /** URL segment, kebab-case. Lives at /tools/<slug>. */
-  slug: string;
-  /** Short display name, e.g. "Base64 encoder". */
-  name: string;
-  /** One sentence, shown on the home page and in search. */
-  description: string;
-  category: ToolCategory;
-  /** Extra words people might search for. Lowercase. */
-  keywords: string[];
-}
+import type { LucideIcon } from "lucide-react";
 
-export const TOOL_CATEGORIES = [
+export const TOOL_TAGS = [
+  "dev",
   "text",
-  "data",
   "image",
-  "file",
+  "pdf",
+  "data",
   "time",
   "crypto",
+  "color",
+  "web",
 ] as const;
 
-export type ToolCategory = (typeof TOOL_CATEGORIES)[number];
+export type ToolTag = (typeof TOOL_TAGS)[number];
 
-export const CATEGORY_LABELS: Record<ToolCategory, string> = {
-  text: "Text",
-  data: "Data & formats",
-  image: "Images",
-  file: "Files",
-  time: "Dates & time",
-  crypto: "Hashing & crypto",
-};
+/** `planned` tools are listed but not linked, so the grid never shows a dead link. */
+export type ToolStatus = "ready" | "planned";
+
+export interface Tool {
+  /** Kebab-case. A ready tool is served at `/tools/<slug>`. */
+  slug: string;
+  name: string;
+  /** One sentence. Shown on the card and as the page description. */
+  description: string;
+  /** At least one tag. The first one gives the tool its colour. */
+  tags: readonly [ToolTag, ...ToolTag[]];
+  icon: LucideIcon;
+  status: ToolStatus;
+}
