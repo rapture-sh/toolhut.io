@@ -1,31 +1,299 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
+/*
+ * The toolhut theme. Day values live here, night values in `.dark`.
+ * Nothing in a component should name a colour that is not a token below.
+ */
 :root {
+  --radius: 1rem;
+
+  /* Brand. Lavender is the mark, peach and mint are the counterweights. */
+  --lavender: #b9c6f7;
+  --peach: #f3c3a0;
+  --mint: #bfe3d4;
+  --heart: #d2457d;
+
+  /* Surfaces, day. */
   --background: #ffffff;
-  --foreground: #171717;
-  --muted: #52525b;
-  --border: #e4e4e7;
+  --foreground: #15151a;
+  --card: #f5f5f3;
+  --card-foreground: #15151a;
+  --popover: #ffffff;
+  --popover-foreground: #15151a;
+  --primary: #b9c6f7;
+  --primary-foreground: #14141a;
+  --secondary: #f0f0ee;
+  --secondary-foreground: #15151a;
+  --muted: #f0f0ee;
+  --muted-foreground: #55555f;
+  --accent: #f0f0ee;
+  --accent-foreground: #15151a;
+  --destructive: #c04a3c;
+  --border: #e6e6e3;
+  --input: #f0f0ee;
+  --ring: #b9c6f7;
+
+  /* One hue per tag, deep enough to read on a pale tint of itself. */
+  --tag-dev: #4356b8;
+  --tag-text: #6d4cc0;
+  --tag-image: #15785c;
+  --tag-pdf: #c04a3c;
+  --tag-data: #a4631f;
+  --tag-time: #1e6b99;
+  --tag-crypto: #55555f;
+  --tag-color: #b4447a;
+  --tag-web: #4c7a2e;
+  /* What sits on a solid tag fill. Day tags are deep, so this is light. */
+  --tag-on: #ffffff;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #09090b;
-    --foreground: #fafafa;
-    --muted: #a1a1aa;
-    --border: #27272a;
-  }
+.dark {
+  /* Surfaces, night. Cool greys, so the pastels stay clean on them. */
+  --background: #101013;
+  --foreground: #f7f7f8;
+  --card: #1a1a1f;
+  --card-foreground: #f7f7f8;
+  --popover: #24242a;
+  --popover-foreground: #f7f7f8;
+  --primary: #b9c6f7;
+  --primary-foreground: #14141a;
+  --secondary: #26262c;
+  --secondary-foreground: #f7f7f8;
+  --muted: #26262c;
+  --muted-foreground: #b0b0ba;
+  --accent: #26262c;
+  --accent-foreground: #f7f7f8;
+  --destructive: #f7ada4;
+  --border: #2d2d35;
+  --input: #26262c;
+  --ring: #b9c6f7;
+
+  /* The same nine hues, lifted to pastel for a dark ground. */
+  --tag-dev: #b9c6f7;
+  --tag-text: #d3bdf6;
+  --tag-image: #a9dec9;
+  --tag-pdf: #f7ada4;
+  --tag-data: #f3c3a0;
+  --tag-time: #a9d4f0;
+  --tag-crypto: #cbcbd4;
+  --tag-color: #f2b6ce;
+  --tag-web: #bedca8;
+  /* Night tags are pastel, so a solid fill carries ink. */
+  --tag-on: #14141a;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
   --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
   --color-border: var(--border);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-lavender: var(--lavender);
+  --color-peach: var(--peach);
+  --color-mint: var(--mint);
+  --color-heart: var(--heart);
+
+  --color-tag-dev: var(--tag-dev);
+  --color-tag-text: var(--tag-text);
+  --color-tag-image: var(--tag-image);
+  --color-tag-pdf: var(--tag-pdf);
+  --color-tag-data: var(--tag-data);
+  --color-tag-time: var(--tag-time);
+  --color-tag-crypto: var(--tag-crypto);
+  --color-tag-color: var(--tag-color);
+  --color-tag-web: var(--tag-web);
+  --color-tag-on: var(--tag-on);
+
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+
+  --radius-sm: calc(var(--radius) - 8px);
+  --radius-md: calc(var(--radius) - 4px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 6px);
+
+  --animate-accordion-down: accordion-down 200ms ease-out;
+  --animate-accordion-up: accordion-up 200ms ease-out;
+}
+
+@keyframes accordion-down {
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--radix-accordion-content-height);
+  }
+}
+
+@keyframes accordion-up {
+  from {
+    height: var(--radix-accordion-content-height);
+  }
+  to {
+    height: 0;
+  }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+::selection {
+  background: var(--lavender);
+  color: #14141a;
+}
+
+/* On the lavender block the selection inverts, so it stays readable. */
+.on-lavender ::selection {
+  background: #14141a;
+  color: var(--lavender);
+}
+
+/* The three step illustrations. Nothing here is load bearing. */
+@keyframes fill-track {
+  0% {
+    width: 0%;
+  }
+  55% {
+    width: 100%;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+@keyframes breathe {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.07);
+  }
+}
+
+@keyframes vanish {
+  0%,
+  15% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  65%,
+  100% {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes turn {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.anim-fill {
+  animation: fill-track 3.2s ease-in-out infinite;
+}
+
+.anim-breathe {
+  animation: breathe 2.6s ease-in-out infinite;
+}
+
+.anim-vanish {
+  animation: vanish 3.4s ease-in-out infinite;
+}
+
+.anim-turn {
+  animation: turn 6s linear infinite;
+}
+
+@keyframes tooltip-in {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.anim-tooltip {
+  animation: tooltip-in 120ms ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .anim-fill,
+  .anim-breathe,
+  .anim-vanish,
+  .anim-turn,
+  .anim-tooltip {
+    animation: none;
+  }
+
+  .anim-fill {
+    width: 100%;
+  }
+}
+
+/*
+ * The Rapture wordmark is painted, not drawn: the official SVG is the mask, so
+ * the fill follows currentColor.
+ */
+.rapture-wordmark {
+  display: inline-block;
+  aspect-ratio: 5397 / 700;
+  background-color: currentColor;
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 5397 700'%3E%3Cpath fill='%23000' d='M234 688L0 688L0 0L514 0Q591 0 642.50 31.50Q694 63 720 114Q746 165 746 224Q746 291 715 343.50Q684 396 628 428L764 688L500 688L396 465L234 465L234 688M234 164L234 303L443 303Q470 303 488.50 284Q507 265 507 232Q507 211 498.50 196Q490 181 475.50 172.50Q461 164 443 164L234 164M977 688L736 688L1028 0L1293 0L1585 688L1335 688L1300 594L1011 594L977 688M1112 318L1072 431L1240 431L1200 318Q1196 308 1191 293Q1186 278 1180.50 260Q1175 242 1170 224Q1165 206 1160 192L1153 192Q1148 210 1140.50 232.50Q1133 255 1126 277.50Q1119 300 1112 318M1841 688L1607 688L1607 0L2087 0Q2153 0 2204 30Q2255 60 2283.50 113Q2312 166 2312 236Q2312 308 2283 362Q2254 416 2203 445.50Q2152 475 2087 475L1841 475L1841 688M1841 167L1841 309L2015 309Q2052 309 2070 291Q2088 273 2088 238Q2088 214 2079.50 198.50Q2071 183 2055.50 175Q2040 167 2015 167L1841 167M2773 688L2539 688L2539 182L2280 182L2280 0L3032 0L3032 182L2773 182L2773 688M3453 700Q3328 700 3243 664Q3158 628 3114.50 557.50Q3071 487 3071 384L3071 0L3305 0L3305 377Q3305 447 3343 489Q3381 531 3452 531Q3524 531 3562 489Q3600 447 3600 377L3600 0L3834 0L3834 384Q3834 487 3791 557.50Q3748 628 3663 664Q3578 700 3453 700M4156 688L3922 688L3922 0L4436 0Q4513 0 4564.50 31.50Q4616 63 4642 114Q4668 165 4668 224Q4668 291 4637 343.50Q4606 396 4550 428L4686 688L4422 688L4318 465L4156 465L4156 688M4156 164L4156 303L4365 303Q4392 303 4410.50 284Q4429 265 4429 232Q4429 211 4420.50 196Q4412 181 4397.50 172.50Q4383 164 4365 164L4156 164M5397 688L4725 688L4725 0L5390 0L5390 168L4959 168L4959 260L5329 260L5329 420L4959 420L4959 520L5397 520'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 5397 700'%3E%3Cpath fill='%23000' d='M234 688L0 688L0 0L514 0Q591 0 642.50 31.50Q694 63 720 114Q746 165 746 224Q746 291 715 343.50Q684 396 628 428L764 688L500 688L396 465L234 465L234 688M234 164L234 303L443 303Q470 303 488.50 284Q507 265 507 232Q507 211 498.50 196Q490 181 475.50 172.50Q461 164 443 164L234 164M977 688L736 688L1028 0L1293 0L1585 688L1335 688L1300 594L1011 594L977 688M1112 318L1072 431L1240 431L1200 318Q1196 308 1191 293Q1186 278 1180.50 260Q1175 242 1170 224Q1165 206 1160 192L1153 192Q1148 210 1140.50 232.50Q1133 255 1126 277.50Q1119 300 1112 318M1841 688L1607 688L1607 0L2087 0Q2153 0 2204 30Q2255 60 2283.50 113Q2312 166 2312 236Q2312 308 2283 362Q2254 416 2203 445.50Q2152 475 2087 475L1841 475L1841 688M1841 167L1841 309L2015 309Q2052 309 2070 291Q2088 273 2088 238Q2088 214 2079.50 198.50Q2071 183 2055.50 175Q2040 167 2015 167L1841 167M2773 688L2539 688L2539 182L2280 182L2280 0L3032 0L3032 182L2773 182L2773 688M3453 700Q3328 700 3243 664Q3158 628 3114.50 557.50Q3071 487 3071 384L3071 0L3305 0L3305 377Q3305 447 3343 489Q3381 531 3452 531Q3524 531 3562 489Q3600 447 3600 377L3600 0L3834 0L3834 384Q3834 487 3791 557.50Q3748 628 3663 664Q3578 700 3453 700M4156 688L3922 688L3922 0L4436 0Q4513 0 4564.50 31.50Q4616 63 4642 114Q4668 165 4668 224Q4668 291 4637 343.50Q4606 396 4550 428L4686 688L4422 688L4318 465L4156 465L4156 688M4156 164L4156 303L4365 303Q4392 303 4410.50 284Q4429 265 4429 232Q4429 211 4420.50 196Q4412 181 4397.50 172.50Q4383 164 4365 164L4156 164M5397 688L4725 688L4725 0L5390 0L5390 168L4959 168L4959 260L5329 260L5329 420L4959 420L4959 520L5397 520'/%3E%3C/svg%3E");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+}
+
+/*
+ * A tiled plus behind the lavender block, the way the Kywi brand page does
+ * it: one 60px tile at low opacity, faded with a mask so it never reads as a
+ * texture across the whole surface.
+ */
+.pattern-plus-ink {
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%2314141a' fill-opacity='0.09' fill-rule='evenodd'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 60px 60px;
+}
+
+.pattern-fade-right {
+  -webkit-mask-image: radial-gradient(
+    68% 150% at 84% 40%,
+    #000 0%,
+    rgb(0 0 0 / 0.55) 50%,
+    transparent 88%
+  );
+  mask-image: radial-gradient(
+    68% 150% at 84% 40%,
+    #000 0%,
+    rgb(0 0 0 / 0.55) 50%,
+    transparent 88%
+  );
 }
