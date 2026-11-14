@@ -1,5 +1,4 @@
 import { BrandMark } from "~/components/brand-mark";
-import { GithubIcon } from "~/components/icons/github";
 import { RaptureWordmark } from "~/components/icons/rapture-wordmark";
 import { siteConfig } from "~/config/site";
 
@@ -19,13 +18,6 @@ export function SiteFooter() {
         >
           <span className="text-muted-foreground">Made by</span>
           <RaptureWordmark className="h-3 text-foreground" />
-        </a>
-        <a
-          href={siteConfig.links.github}
-          aria-label={`${siteConfig.name} on GitHub`}
-          className="text-muted-foreground transition-colors hover:text-foreground"
-        >
-          <GithubIcon className="size-5" />
         </a>
       </div>
     </footer>
