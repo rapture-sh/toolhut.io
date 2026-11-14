@@ -5,5 +5,7 @@ interface ToolsLayoutProps {
 }
 
 export default function ToolsLayout({ children }: ToolsLayoutProps) {
-  return <div className="pb-8">{children}</div>;
+  return (
+    <div className="mx-auto w-full max-w-6xl px-6 pt-8 pb-4">{children}</div>
+  );
 }

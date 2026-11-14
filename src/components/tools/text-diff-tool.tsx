@@ -53,7 +53,7 @@ export function TextDiffTool() {
           </span>
         }
       >
-        <div className="min-h-56 overflow-x-auto rounded-2xl bg-card p-2">
+        <div className="scroll-slim max-h-[32rem] min-h-56 overflow-auto rounded-2xl bg-card p-2">
           {lines.length === 0 ? (
             <p className="p-2 font-mono text-sm text-muted-foreground">
               Paste both versions to see what changed.

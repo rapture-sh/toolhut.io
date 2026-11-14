@@ -21,7 +21,7 @@ export function CopyButton({ value, className }: CopyButtonProps) {
       size="sm"
       disabled={value === ""}
       onClick={() => copy(value)}
-      className={cn("-my-1 text-muted-foreground", className)}
+      className={cn("text-muted-foreground", className)}
     >
       {copied ? <Check /> : <Copy />}
       {copied ? "Copied" : "Copy"}
@@ -89,7 +89,7 @@ export function ToolTextarea({
       spellCheck={false}
       rows={rows}
       className={cn(
-        "w-full resize-y rounded-2xl bg-card p-4 font-mono text-sm leading-relaxed outline-none placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-ring/50",
+        "scroll-slim w-full resize-y rounded-2xl bg-card p-4 font-mono text-sm leading-relaxed outline-none placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-ring/50",
         className,
       )}
     />
@@ -113,7 +113,7 @@ export function ToolOutput({
     <output
       aria-live="polite"
       className={cn(
-        "min-h-56 w-full whitespace-pre-wrap break-words rounded-2xl bg-card p-4 font-mono text-sm leading-relaxed",
+        "scroll-slim block max-h-[32rem] min-h-56 w-full overflow-auto whitespace-pre-wrap break-words rounded-2xl bg-card p-4 font-mono text-sm leading-relaxed",
         className,
       )}
     >

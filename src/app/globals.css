@@ -273,6 +273,36 @@ html {
   mask-size: contain;
 }
 
+/* The default scrollbar is the one thing on the page we do not style. */
+.scroll-slim {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+
+.scroll-slim::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+.scroll-slim::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scroll-slim::-webkit-scrollbar-thumb {
+  background-color: var(--border);
+  background-clip: padding-box;
+  border: 4px solid transparent;
+  border-radius: 999px;
+}
+
+.scroll-slim:hover::-webkit-scrollbar-thumb {
+  background-color: var(--muted-foreground);
+}
+
+.scroll-slim::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
 /*
  * A tiled plus behind the lavender block, the way the Kywi brand page does
  * it: one 60px tile at low opacity, faded with a mask so it never reads as a

@@ -22,7 +22,7 @@ export function ToolPage({ slug, children }: ToolPageProps) {
   }
 
   return (
-    <div className="mx-auto w-full max-w-5xl px-6 pt-8 pb-4">
+    <>
       <Link
         href="/#tools"
         className="inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
@@ -61,6 +61,6 @@ export function ToolPage({ slug, children }: ToolPageProps) {
           </ul>
         </section>
       )}
-    </div>
+    </>
   );
 }
