@@ -1,7 +1,7 @@
 import { Binary, FileText } from "lucide-react";
 import { describe, expect, it } from "vitest";
 import type { Tool } from "~/lib/tools/types";
-import { filterTools } from "~/utils/search";
+import { filterTools, rankTool, searchTools } from "~/utils/search";
 
 const base64: Tool = {
   slug: "base64",
@@ -63,5 +63,66 @@ describe("filterTools", () => {
 
   it("combines the tag and the query", () => {
     expect(filterTools(catalogue, { query: "merge", tag: "dev" })).toEqual([]);
+  });
+});
+
+describe("rankTool", () => {
+  it("puts a name that starts with the words first", () => {
+    expect(rankTool(base64, "base")).toBeLessThan(
+      rankTool(base64, "encode") ?? Number.POSITIVE_INFINITY,
+    );
+  });
+
+  it("ranks a tag match below anything the words actually say", () => {
+    expect(rankTool(base64, "dev")).toBeGreaterThan(
+      rankTool(base64, "base64") ?? 0,
+    );
+  });
+
+  it("returns nothing for a tool the words do not reach", () => {
+    expect(rankTool(base64, "sausage")).toBeNull();
+  });
+});
+
+describe("searchTools", () => {
+  const imageConverter: Tool = {
+    ...base64,
+    slug: "image-converter",
+    name: "Image converter",
+    description: "Move an image between PNG, JPEG and WebP.",
+    tagline: "png, jpeg and webp",
+    keywords: ["convert image"],
+    tags: ["image"],
+  };
+
+  const colorConverter: Tool = {
+    ...base64,
+    slug: "color-converter",
+    name: "Color converter",
+    description: "Convert a colour between HEX, RGB, HSL and OKLCH.",
+    tagline: "hex, rgb, hsl and oklch",
+    keywords: ["color converter"],
+    tags: ["color", "image"],
+  };
+
+  it("offers the tool named after the words before one merely tagged with them", () => {
+    expect(
+      searchTools([colorConverter, imageConverter], "image").map(
+        (tool) => tool.slug,
+      ),
+    ).toEqual(["image-converter", "color-converter"]);
+  });
+
+  it("settles a tie alphabetically", () => {
+    const first: Tool = { ...imageConverter, slug: "a", name: "Image alpha" };
+    const second: Tool = { ...imageConverter, slug: "b", name: "Image beta" };
+
+    expect(
+      searchTools([second, first], "image").map((tool) => tool.name),
+    ).toEqual(["Image alpha", "Image beta"]);
+  });
+
+  it("gives everything back when nothing was typed", () => {
+    expect(searchTools([base64, pdfMerge], "  ")).toEqual([base64, pdfMerge]);
   });
 });

@@ -1,11 +1,18 @@
 "use client";
 
 import { ArrowDown, Search } from "lucide-react";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useEffect, useId, useMemo, useRef, useState } from "react";
+import { optionId, SearchResults } from "~/components/search/search-results";
+import { useToolSearch } from "~/components/search/use-tool-search";
 import { ToolCard } from "~/components/tools/tool-card";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
-import { SEARCH_FIELD_ID, shouldFocusOnLoad } from "~/lib/search-field";
+import {
+  SEARCH_FIELD_ID,
+  SEARCH_FOCUS_EVENT,
+  shouldFocusOnLoad,
+} from "~/lib/search-field";
 import { allTools } from "~/lib/tools/registry";
 import { TAG_SOLID, TAG_STYLES } from "~/lib/tools/tag-styles";
 import { TOOL_TAGS } from "~/lib/tools/types";
@@ -19,16 +26,70 @@ const FILTERS: TagFilter[] = ["all", ...TOOL_TAGS];
 const FADE = "linear-gradient(to bottom, #000 72%, transparent 100%)";
 
 export function ToolExplorer() {
-  const [query, setQuery] = useState("");
+  const router = useRouter();
   const [tag, setTag] = useState<TagFilter>("all");
   const [expanded, setExpanded] = useState(false);
+  const [open, setOpen] = useState(false);
   const field = useRef<HTMLInputElement>(null);
+  const box = useRef<HTMLDivElement>(null);
+  const listId = useId();
+
+  const search = useToolSearch({
+    onSelect: (tool) => {
+      setOpen(false);
+      router.push(`/tools/${tool.slug}`);
+    },
+    onSubmit: (value) => {
+      setOpen(false);
+      setExpanded(false);
+      // The page is already showing the answer, so the address bar just
+      // catches up, which keeps the result a link somebody can send on.
+      window.history.pushState(null, "", `/?q=${encodeURIComponent(value)}`);
+    },
+    onEscape: () => setOpen(false),
+  });
+  const { query, setQuery } = search;
 
   useEffect(() => {
     if (shouldFocusOnLoad()) {
       field.current?.focus({ preventScroll: true });
+      setOpen(true);
     }
   }, []);
+
+  useEffect(() => {
+    function onRequest() {
+      field.current?.focus({ preventScroll: true });
+      setOpen(true);
+    }
+
+    window.addEventListener(SEARCH_FOCUS_EVENT, onRequest);
+
+    return () => window.removeEventListener(SEARCH_FOCUS_EVENT, onRequest);
+  }, []);
+
+  useEffect(() => {
+    function onPointerDown(event: PointerEvent) {
+      if (!box.current?.contains(event.target as Node)) {
+        setOpen(false);
+      }
+    }
+
+    window.addEventListener("pointerdown", onPointerDown);
+
+    return () => window.removeEventListener("pointerdown", onPointerDown);
+  }, []);
+
+  useEffect(() => {
+    const read = () => {
+      setQuery(new URLSearchParams(window.location.search).get("q") ?? "");
+    };
+
+    read();
+    window.addEventListener("popstate", read);
+
+    return () => window.removeEventListener("popstate", read);
+  }, [setQuery]);
 
   const matches = useMemo(
     () => filterTools(allTools(), { query, tag }),
@@ -45,28 +106,54 @@ export function ToolExplorer() {
   return (
     <>
       <div className="mx-auto mt-14 max-w-2xl">
-        <div className="relative">
-          <label htmlFor={SEARCH_FIELD_ID} className="sr-only">
-            Search tools
-          </label>
-          <Search
-            className="pointer-events-none absolute left-6 top-1/2 size-5 -translate-y-1/2 text-muted-foreground"
-            strokeWidth={2}
-            aria-hidden="true"
-          />
-          <Input
-            ref={field}
-            id={SEARCH_FIELD_ID}
-            type="search"
-            value={query}
-            onChange={(event) => {
-              setQuery(event.target.value);
-              setExpanded(false);
-            }}
-            placeholder="Search tools"
-            autoComplete="off"
-            className="h-16 rounded-full bg-card pl-14 pr-6 text-lg"
-          />
+        <div ref={box} className="relative">
+          <div className="relative">
+            <label htmlFor={SEARCH_FIELD_ID} className="sr-only">
+              Search tools
+            </label>
+            <Search
+              className="pointer-events-none absolute left-6 top-1/2 size-5 -translate-y-1/2 text-muted-foreground"
+              strokeWidth={2}
+              aria-hidden="true"
+            />
+            <Input
+              ref={field}
+              id={SEARCH_FIELD_ID}
+              type="search"
+              role="combobox"
+              aria-expanded={open}
+              aria-controls={listId}
+              aria-autocomplete="list"
+              aria-activedescendant={
+                search.active >= 0 ? optionId(listId, search.active) : undefined
+              }
+              value={query}
+              onChange={(event) => {
+                setQuery(event.target.value);
+                setExpanded(false);
+                setOpen(true);
+              }}
+              onKeyDown={search.onKeyDown}
+              onFocus={() => setOpen(true)}
+              placeholder="Search tools"
+              autoComplete="off"
+              className="h-16 rounded-full bg-card pl-14 pr-6 text-lg"
+            />
+          </div>
+          {open && (
+            <div className="absolute inset-x-0 top-[calc(100%+0.5rem)] z-40 overflow-hidden rounded-3xl bg-card text-left">
+              <SearchResults
+                id={listId}
+                heading={search.heading}
+                tools={search.suggestions}
+                active={search.active}
+                query={query}
+                total={search.total}
+                onHover={search.setActive}
+                onPick={() => setOpen(false)}
+              />
+            </div>
+          )}
         </div>
         <div className="mt-5 flex flex-wrap justify-center gap-2">
           {FILTERS.map((filter) => {

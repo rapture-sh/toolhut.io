@@ -743,6 +743,15 @@ export function getTool(slug: string): Tool | undefined {
   return tools.find((tool) => tool.slug === slug);
 }
 
+/** The three people reach for first, offered before anything is typed. */
+const POPULAR_SLUGS = ["image-converter", "json-formatter", "base64"];
+
+export function popularTools(limit = 3): Tool[] {
+  return POPULAR_SLUGS.map(getTool)
+    .filter((tool): tool is Tool => tool?.status === "ready")
+    .slice(0, limit);
+}
+
 export function readyTools(): Tool[] {
   return allTools().filter((tool) => tool.status === "ready");
 }

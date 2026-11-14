@@ -1,37 +1,55 @@
 "use client";
 
 import { Search } from "lucide-react";
-import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
+import { SearchDialog } from "~/components/search/search-dialog";
 import { Button } from "~/components/ui/button";
 import { focusSearchField } from "~/lib/search-field";
 
 /**
- * On the home page the search field is already there, so this reaches for it
- * instead of navigating. Anywhere else it goes home, which lands in the field.
+ * On the home page the search field is already there, so this reaches for it.
+ * Anywhere else it opens the command menu, as does the usual keyboard
+ * shortcut, which people try on a site like this before anything else.
  */
 export function SearchButton() {
   const pathname = usePathname();
+  const [open, setOpen] = useState(false);
+  const home = pathname === "/";
 
-  if (pathname === "/") {
-    return (
+  useEffect(() => {
+    function onKeyDown(event: KeyboardEvent) {
+      if (event.key !== "k" || !(event.metaKey || event.ctrlKey)) {
+        return;
+      }
+
+      event.preventDefault();
+
+      if (home) {
+        focusSearchField();
+        return;
+      }
+
+      setOpen((showing) => !showing);
+    }
+
+    window.addEventListener("keydown", onKeyDown);
+
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [home]);
+
+  return (
+    <>
       <Button
         type="button"
         variant="ghost"
         size="icon"
         aria-label="Search tools"
-        onClick={focusSearchField}
+        onClick={() => (home ? focusSearchField() : setOpen(true))}
       >
         <Search strokeWidth={1.8} />
       </Button>
-    );
-  }
-
-  return (
-    <Button asChild variant="ghost" size="icon">
-      <Link href="/" aria-label="Search tools">
-        <Search strokeWidth={1.8} />
-      </Link>
-    </Button>
+      {!home && <SearchDialog open={open} onOpenChange={setOpen} />}
+    </>
   );
 }
