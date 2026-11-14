@@ -55,12 +55,7 @@ function Gutter({ left, right }: { left?: number; right?: number }) {
 
 function Row({ row }: { row: DiffRow }) {
   return (
-    <li
-      className={cn(
-        "flex items-start rounded-lg py-0.5 pr-2",
-        ROW_STYLES[row.type],
-      )}
-    >
+    <li className={cn("flex items-start px-4 py-0.5", ROW_STYLES[row.type])}>
       <Gutter left={row.left} right={row.right} />
       <span className="w-4 shrink-0 select-none text-center opacity-70">
         {MARKS[row.type]}
@@ -126,9 +121,9 @@ export function TextDiffTool() {
 
       <ToolField label="Difference">
         <div className="overflow-hidden rounded-2xl bg-card">
-          <div className="scroll-slim h-80 overflow-auto p-2">
+          <div className="scroll-slim h-80 overflow-auto py-2">
             {rows.length === 0 ? (
-              <p className="p-2 font-mono text-sm text-muted-foreground">
+              <p className="px-4 py-2 font-mono text-sm text-muted-foreground">
                 Paste both versions to see what changed.
               </p>
             ) : (
@@ -143,7 +138,7 @@ export function TextDiffTool() {
             )}
           </div>
 
-          <div className="flex flex-wrap items-center gap-x-5 gap-y-1 border-t border-hairline px-5 py-3 font-mono text-xs">
+          <div className="flex flex-wrap items-center gap-x-5 gap-y-1 border-t border-border px-4 py-3 font-mono text-xs">
             <span className="text-tag-web">+{summary.added} added</span>
             <span className="text-tag-pdf">-{summary.removed} removed</span>
             <span className="text-muted-foreground">
