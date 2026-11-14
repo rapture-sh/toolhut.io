@@ -29,7 +29,7 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
   const submit = useCallback(
     (query: string) => {
       onOpenChange(false);
-      router.push(`/?q=${encodeURIComponent(query)}`);
+      router.push(query === "" ? "/" : `/?q=${encodeURIComponent(query)}`);
     },
     [onOpenChange, router],
   );

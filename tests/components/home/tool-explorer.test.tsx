@@ -70,6 +70,41 @@ describe("<ToolExplorer />", () => {
     expect(push).not.toHaveBeenCalled();
   });
 
+  it("leaves the grid alone until the search is committed", async () => {
+    const user = userEvent.setup();
+    render(<ToolExplorer />);
+
+    await user.type(
+      screen.getByRole("combobox", { name: "Search tools" }),
+      "qr",
+    );
+
+    expect(
+      screen.getByRole("link", { name: /Case converter/ }),
+    ).toBeInTheDocument();
+
+    await user.keyboard("{Enter}");
+
+    expect(
+      screen.queryByRole("link", { name: /Case converter/ }),
+    ).not.toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /QR code/ })).toBeInTheDocument();
+  });
+
+  it("clears the filter when the field is emptied and committed", async () => {
+    window.history.replaceState(null, "", "/?q=qr");
+    const user = userEvent.setup();
+    render(<ToolExplorer />);
+
+    await user.clear(screen.getByRole("combobox", { name: "Search tools" }));
+    await user.keyboard("{Enter}");
+
+    expect(window.location.search).toBe("");
+    expect(
+      screen.getByRole("link", { name: /Case converter/ }),
+    ).toBeInTheDocument();
+  });
+
   it("starts from the words already in the address", async () => {
     window.history.replaceState(null, "", "/?q=base64");
     render(<ToolExplorer />);

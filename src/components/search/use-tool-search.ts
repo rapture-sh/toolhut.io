@@ -87,17 +87,14 @@ export function useToolSearch({
 
       if (event.key === "Enter") {
         const picked = suggestions[active];
+        event.preventDefault();
 
         if (picked) {
-          event.preventDefault();
           onSelect(picked);
           return;
         }
 
-        if (query.trim() !== "") {
-          event.preventDefault();
-          onSubmit(query.trim());
-        }
+        onSubmit(query.trim());
         return;
       }
 

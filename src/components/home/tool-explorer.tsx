@@ -28,6 +28,7 @@ const FADE = "linear-gradient(to bottom, #000 72%, transparent 100%)";
 export function ToolExplorer() {
   const router = useRouter();
   const [tag, setTag] = useState<TagFilter>("all");
+  const [applied, setApplied] = useState("");
   const [expanded, setExpanded] = useState(false);
   const [open, setOpen] = useState(false);
   const field = useRef<HTMLInputElement>(null);
@@ -42,9 +43,14 @@ export function ToolExplorer() {
     onSubmit: (value) => {
       setOpen(false);
       setExpanded(false);
-      // The page is already showing the answer, so the address bar just
-      // catches up, which keeps the result a link somebody can send on.
-      window.history.pushState(null, "", `/?q=${encodeURIComponent(value)}`);
+      setApplied(value);
+      // Enter is what commits a search, so the address can carry it and the
+      // result stays a link somebody can send on.
+      window.history.pushState(
+        null,
+        "",
+        value === "" ? "/" : `/?q=${encodeURIComponent(value)}`,
+      );
     },
     onEscape: () => setOpen(false),
   });
@@ -82,7 +88,9 @@ export function ToolExplorer() {
 
   useEffect(() => {
     const read = () => {
-      setQuery(new URLSearchParams(window.location.search).get("q") ?? "");
+      const asked = new URLSearchParams(window.location.search).get("q") ?? "";
+      setQuery(asked);
+      setApplied(asked);
     };
 
     read();
@@ -92,8 +100,8 @@ export function ToolExplorer() {
   }, [setQuery]);
 
   const matches = useMemo(
-    () => filterTools(allTools(), { query, tag }),
-    [query, tag],
+    () => filterTools(allTools(), { query: applied, tag }),
+    [applied, tag],
   );
 
   const visible = expanded ? matches : matches.slice(0, PREVIEW);
