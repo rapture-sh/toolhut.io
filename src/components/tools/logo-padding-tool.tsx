@@ -33,6 +33,7 @@ import {
   type Anchor,
   type Box,
   edgeColor,
+  innerSize,
   LogoPaddingError,
   MAX_PADDING_PERCENT,
   MIN_SIZE_PERCENT,
@@ -121,7 +122,7 @@ export function LogoPaddingTool() {
   const [height, setHeight] = useState(1024);
   const [padding, setPadding] = useState(15);
   const [anchor, setAnchor] = useState<Anchor>("center");
-  const [size, setSize] = useState(100);
+  const [size, setSize] = useState(85);
   const [fill, setFill] = useState<Fill>("color");
   const [background, setBackground] = useState("#ffffff");
   const [format, setFormat] = useState<ImageFormat>("png");
@@ -182,6 +183,12 @@ export function LogoPaddingTool() {
   }, [source, canvasSize, padding, anchor, size]);
 
   const box = placement.box;
+  const inner = source ? innerSize(canvasSize, padding) : null;
+  // A logo that fills the space has nowhere to be moved to.
+  const movable =
+    box !== null &&
+    inner !== null &&
+    (box.width < inner.width || box.height < inner.height);
   const keepsAlpha = fill === "transparent" && KEEPS_ALPHA[format];
   const paint = keepsAlpha
     ? null
@@ -324,6 +331,12 @@ export function LogoPaddingTool() {
             <div className="flex flex-wrap gap-5">
               <fieldset className="flex flex-col gap-2">
                 <legend className="mb-2 text-sm font-medium">Position</legend>
+                {!movable && (
+                  <p className="max-w-44 text-xs leading-relaxed text-muted-foreground">
+                    The logo fills the space, so there is nowhere to move it.
+                    Lower the logo size.
+                  </p>
+                )}
                 <div className="grid w-fit grid-cols-3 gap-1 rounded-2xl bg-card p-2">
                   {ANCHOR_ROWS.flat().map((option) => (
                     <Button

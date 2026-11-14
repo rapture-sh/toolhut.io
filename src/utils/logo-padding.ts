@@ -73,6 +73,21 @@ export interface PlacementOptions {
   sizePercent: number;
 }
 
+/**
+ * The space left for the logo once the padding is taken off. A logo this
+ * size or bigger fills the canvas, which leaves the anchor nothing to do.
+ */
+export function innerSize(canvas: Size, paddingPercent: number): Size {
+  const padding = Math.round(
+    (Math.min(canvas.width, canvas.height) * paddingPercent) / 100,
+  );
+
+  return {
+    width: canvas.width - padding * 2,
+    height: canvas.height - padding * 2,
+  };
+}
+
 function offset(align: Align, available: number, used: number): number {
   if (align === "start") {
     return 0;
@@ -112,10 +127,7 @@ export function placeLogo(
   const padding = Math.round(
     (Math.min(canvas.width, canvas.height) * paddingPercent) / 100,
   );
-  const inner = {
-    width: canvas.width - padding * 2,
-    height: canvas.height - padding * 2,
-  };
+  const inner = innerSize(canvas, paddingPercent);
 
   if (inner.width < 1 || inner.height < 1) {
     throw new LogoPaddingError(
