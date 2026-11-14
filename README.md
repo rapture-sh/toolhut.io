@@ -1,30 +1,41 @@
-# toolhut
+<p align="center">
+  <a href="https://toolhut.io">
+    <img src="./public/icon-512.png" width="80" height="80" alt="toolhut" />
+  </a>
+</p>
 
-**Everyday tools that run entirely in your browser.**
+<h1 align="center">toolhut</h1>
 
-[toolhut.io](https://toolhut.io) · a [Rapture.sh](https://rapture.sh) project ·
-MIT licensed
+<p align="center">Free online tools that never upload your files.</p>
 
-Most online tools make you upload your data to a server so it can do work your own
-machine could do in milliseconds. Converting an image, formatting some JSON, hashing a
-string. None of that needs a cloud, so toolhut does the work locally: every tool is
-plain JavaScript running in your tab.
+<p align="center">
+  <a href="https://toolhut.io"><strong>Open toolhut</strong></a> ·
+  <a href="./CONTRIBUTING.md">Contributing</a> ·
+  <a href="./AGENTS.md">Conventions</a> ·
+  <a href="https://github.com/rapture-sh/toolhut.io/issues">Issues</a> ·
+  <a href="https://rapture.sh">Rapture</a>
+</p>
 
-- **Nothing is uploaded.** Your input never leaves the page.
-- **No accounts, no tracking, no analytics.** There is no backend to send anything to.
-- **Works offline** once the page is loaded.
-- **Open source**, so you can check all of the above for yourself.
+Search for a PDF merger or an image converter and almost every result asks you
+to upload. Your file is copied to a server you know nothing about, processed
+there, and kept for as long as that company decides. Browsers stopped needing
+help with this a long time ago.
 
-## Tools
+toolhut is the catalogue built on that. Every tool is plain JavaScript running
+in your own tab.
 
-| Tool | What it does |
-| --- | --- |
-| [Base64 encoder & decoder](src/utils/base64.ts) | Encode text to Base64 or decode it back, with full Unicode support. |
+## What you get
 
-More are on the way. Want one? [Open an issue](https://github.com/rapture-sh/toolhut.io/issues)
-or build it yourself, see [CONTRIBUTING.md](CONTRIBUTING.md).
+- **Nothing is uploaded.** No request carries your input. Open the network tab
+  and check.
+- **No accounts, no tracking.** There is no backend to send anything to and no
+  analytics watching what you do.
+- **Works offline.** Once the page has loaded, every tool keeps working with
+  the network switched off.
+- **Open from top to bottom.** MIT licensed, so you can read any tool before
+  you trust it with anything, or run your own copy.
 
-## Running it locally
+## Run it locally
 
 Requires [Node.js](https://nodejs.org) 20+ and [pnpm](https://pnpm.io) 10+.
 
@@ -37,49 +48,40 @@ pnpm dev
 
 Then open [http://localhost:3000](http://localhost:3000).
 
-## Commands
-
 | Command | What it does |
 | --- | --- |
 | `pnpm dev` | Dev server with hot reload |
 | `pnpm build` | Production build |
-| `pnpm start` | Serve the production build |
-| `pnpm test` | Run unit tests once |
-| `pnpm test:watch` | Run unit tests in watch mode |
-| `pnpm test:coverage` | Tests with a coverage report |
+| `pnpm test` | Unit tests |
 | `pnpm typecheck` | TypeScript, no emit |
-| `pnpm lint` | Biome lint + format check |
-| `pnpm lint:fix` | Fix what Biome can fix |
+| `pnpm lint` | Biome lint and format check |
+| `pnpm icons` | Regenerate the app icons from the mark |
 
-## Stack
-
-Next.js (App Router), React, TypeScript, Tailwind CSS v4, Biome, Vitest.
-
-## How it is organised
+## How it is put together
 
 ```
 src/
   app/                 # routes
-  components/          # shared UI, with components/tools/ for each tool's UI
-  hooks/               # reusable client hooks
-  lib/tools/           # the tool registry and its types
-  utils/               # pure logic, one module per tool
+  components/          # shared UI, with components/tools/ for each tool
+  config/              # fonts and site wide values
+  lib/tools/           # the registry, its types and the tag colours
+  utils/               # the pure logic of every tool
 tests/                 # mirrors src/, one test file per module
 ```
 
-Each tool keeps its real work in a pure module under `src/utils/` and its UI in a thin
-client component under `src/components/tools/`. Tests live outside `src/` in a `tests/`
-tree that mirrors it, so `src/utils/base64.ts` is tested by `tests/utils/base64.test.ts`.
-The base64 tool is the reference implementation.
+A tool is a pure module in `src/utils/`, a thin client component in
+`src/components/tools/`, a registry entry and a route. The registry decides
+what the site lists, so adding a tool is mostly adding data.
+
+[AGENTS.md](./AGENTS.md) has the rules the code follows, including the one that
+matters most: nothing a tool touches may leave the browser.
 
 ## Contributing
 
-Contributions are very welcome: new tools, fixes, polish. Read
-[CONTRIBUTING.md](CONTRIBUTING.md) for the conventions and
-[AGENTS.md](AGENTS.md) for the rules the code has to follow (the big one: nothing user
-data touches may leave the browser).
+New tools, fixes and polish are all welcome. Read
+[CONTRIBUTING.md](./CONTRIBUTING.md) first, then open an issue or send a pull
+request.
 
 ## License
 
-MIT, see [LICENSE](LICENSE). Fork it, ship it, build on it; just keep the copyright
-notice and credit where it came from.
+[MIT](./LICENSE)
