@@ -131,6 +131,17 @@ the same site.
 - `components/tools/code-view.tsx`: `CodeView`, output that is code. Give it the
   language and it colours the parts, so JSON reads the same in every tool. A new
   language is a few rules in `utils/highlight.ts`.
+- `components/tools/pdf-input.tsx` and `hooks/use-pdf-file.ts`: how a PDF tool takes
+  its file and opens it. The hook keeps the document open for as long as the tool
+  needs it, because closing one takes its worker with it and everything after it
+  hangs. Never close a document from a component.
+- `components/tools/sortable-grid.tsx`: `SortableGrid`, the drag to reorder grid,
+  with arrow key moves built in. Used by merge, the organizer and images to PDF.
+- `lib/pdf/document.ts` reads with pdf.js, `lib/pdf/build.ts` writes with
+  `@cantoo/pdf-lib`. Import the fork, never `pdf-lib` itself, which has not been
+  released since 2021. Pages are drawn with the print intent: the display intent
+  paces itself with animation frames, and a tab nobody is looking at gets none, so
+  a render started in the background would never finish.
 
 Two rules come with them:
 

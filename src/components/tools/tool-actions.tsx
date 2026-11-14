@@ -17,6 +17,8 @@ interface FileActionsProps {
   file: () => Promise<OutputFile | null> | OutputFile | null;
   /** An image goes on the clipboard as a PNG, which is all browsers take. */
   image?: boolean;
+  /** Off for a PDF or a zip, which no clipboard can hold. */
+  copyable?: boolean;
   disabled?: boolean;
   className?: string;
 }
@@ -28,6 +30,7 @@ interface FileActionsProps {
 export function FileActions({
   file,
   image = false,
+  copyable = true,
   disabled = false,
   className,
 }: FileActionsProps) {
@@ -86,18 +89,20 @@ export function FileActions({
 
   return (
     <div className={cn("flex items-center gap-1", className)}>
-      <Button
-        type="button"
-        variant="ghost"
-        size="sm"
-        disabled={disabled || busy}
-        onClick={copy}
-        aria-label={image ? "Copy as PNG" : "Copy"}
-        className="text-muted-foreground"
-      >
-        {copied ? <Check /> : <Copy />}
-        {copied ? "Copied" : "Copy"}
-      </Button>
+      {copyable && (
+        <Button
+          type="button"
+          variant="ghost"
+          size="sm"
+          disabled={disabled || busy}
+          onClick={copy}
+          aria-label={image ? "Copy as PNG" : "Copy"}
+          className="text-muted-foreground"
+        >
+          {copied ? <Check /> : <Copy />}
+          {copied ? "Copied" : "Copy"}
+        </Button>
+      )}
       <Button
         type="button"
         variant="ghost"

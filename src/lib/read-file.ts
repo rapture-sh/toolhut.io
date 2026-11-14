@@ -20,6 +20,10 @@ export function isImageFile(file: File): boolean {
   );
 }
 
+export function isPdfFile(file: File): boolean {
+  return file.type === "application/pdf" || /\.pdf$/i.test(file.name);
+}
+
 export async function readTextFile(file: File): Promise<string> {
   return await file.text();
 }
