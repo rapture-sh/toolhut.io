@@ -4,7 +4,7 @@ import { describe, expect, it } from "vitest";
 import { JsonToTypescriptTool } from "~/components/tools/json-to-typescript-tool";
 
 describe("<JsonToTypescriptTool />", () => {
-  it("writes an interface for the sample and names it from the root name", async () => {
+  it("should write an interface for the sample and name it from the root name", async () => {
     const user = userEvent.setup();
     render(<JsonToTypescriptTool />);
 
@@ -20,7 +20,7 @@ describe("<JsonToTypescriptTool />", () => {
     expect(output).toContain("export interface User");
   });
 
-  it("explains a sample that is not JSON", async () => {
+  it("should explain a sample that is not JSON", async () => {
     const user = userEvent.setup();
     render(<JsonToTypescriptTool />);
 

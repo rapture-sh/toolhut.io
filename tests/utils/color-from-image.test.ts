@@ -40,7 +40,7 @@ function hexAt(pixels: Pixels, x: number, y: number): string | null {
 }
 
 describe("extractPalette", () => {
-  it("finds the two colours an image is made of", () => {
+  it("should find the two colours an image is made of", () => {
     const pixels = image(4, 4, [...repeat(RED, 8), ...repeat(BLUE, 8)]);
     const palette = extractPalette(pixels, { count: 2 });
 
@@ -50,7 +50,7 @@ describe("extractPalette", () => {
     expect(palette.map((entry) => entry.share)).toEqual([0.5, 0.5]);
   });
 
-  it("puts the most common colour first", () => {
+  it("should put the most common colour first", () => {
     const pixels = image(4, 4, [...repeat(BLUE, 4), ...repeat(RED, 12)]);
     const palette = extractPalette(pixels, { count: 2 });
 
@@ -59,7 +59,7 @@ describe("extractPalette", () => {
     expect(palette[1].share).toBe(0.25);
   });
 
-  it("leaves fully transparent pixels out of the shares", () => {
+  it("should leave fully transparent pixels out of the shares", () => {
     const pixels = image(4, 4, [...repeat(RED, 8), ...repeat(CLEAR, 8)]);
     const palette = extractPalette(pixels, { count: 4 });
 
@@ -68,7 +68,7 @@ describe("extractPalette", () => {
     expect(palette[0].share).toBe(1);
   });
 
-  it("merges colours too close together to tell apart", () => {
+  it("should merge colours too close together to tell apart", () => {
     const greys: Pixel[] = [
       ...repeat([128, 128, 128, 255], 8),
       ...repeat([130, 131, 129, 255], 8),
@@ -79,7 +79,7 @@ describe("extractPalette", () => {
     expect(palette[0].share).toBe(1);
   });
 
-  it("keeps colours that are genuinely different apart", () => {
+  it("should keep colours that are genuinely different apart", () => {
     const pixels = image(4, 4, [
       ...repeat(RED, 4),
       ...repeat(BLUE, 4),
@@ -92,7 +92,7 @@ describe("extractPalette", () => {
     );
   });
 
-  it("never gives back more colours than it was asked for", () => {
+  it("should never give back more colours than it was asked for", () => {
     const many: Pixel[] = Array.from({ length: 16 }, (_, index) => [
       index * 16,
       255 - index * 16,
@@ -107,12 +107,12 @@ describe("extractPalette", () => {
     expect(total).toBeLessThanOrEqual(1);
   });
 
-  it("has nothing to say about an empty or fully transparent image", () => {
+  it("should have nothing to say about an empty or fully transparent image", () => {
     expect(extractPalette(image(0, 0, []))).toEqual([]);
     expect(extractPalette(image(2, 2, repeat(CLEAR, 4)))).toEqual([]);
   });
 
-  it("rejects a palette size it cannot produce", () => {
+  it("should reject a palette size it cannot produce", () => {
     const pixels = image(2, 2, repeat(RED, 4));
 
     expect(() => extractPalette(pixels, { count: 0 })).toThrow(PaletteError);
@@ -120,7 +120,7 @@ describe("extractPalette", () => {
     expect(() => extractPalette(pixels, { count: 2.5 })).toThrow(PaletteError);
   });
 
-  it("rejects pixel data that does not match its size", () => {
+  it("should reject pixel data that does not match its size", () => {
     const broken: Pixels = {
       data: new Uint8ClampedArray(12),
       width: 4,
@@ -134,24 +134,24 @@ describe("extractPalette", () => {
 describe("pixelAt", () => {
   const pixels = image(2, 2, [RED, BLUE, CLEAR, [10, 20, 30, 128]]);
 
-  it("reads the colour under a point", () => {
+  it("should read the colour under a point", () => {
     expect(hexAt(pixels, 0, 0)).toBe("#ff0000");
     expect(hexAt(pixels, 1, 0)).toBe("#0000ff");
   });
 
-  it("rounds a fractional point down to the pixel it sits in", () => {
+  it("should round a fractional point down to the pixel it sits in", () => {
     expect(pixelAt(pixels, 1.9, 0.4)).toEqual(pixelAt(pixels, 1, 0));
   });
 
-  it("reads the last pixel of the image", () => {
+  it("should read the last pixel of the image", () => {
     expect(pixelAt(pixels, 1, 1)?.alpha).toBeCloseTo(128 / 255, 5);
   });
 
-  it("reports alpha for a transparent pixel", () => {
+  it("should report alpha for a transparent pixel", () => {
     expect(pixelAt(pixels, 0, 1)?.alpha).toBe(0);
   });
 
-  it("gives nothing for a point off the image", () => {
+  it("should give nothing for a point off the image", () => {
     expect(pixelAt(pixels, -1, 0)).toBeNull();
     expect(pixelAt(pixels, 2, 0)).toBeNull();
     expect(pixelAt(pixels, 0, 2)).toBeNull();

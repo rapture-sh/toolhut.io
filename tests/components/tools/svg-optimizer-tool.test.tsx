@@ -6,7 +6,7 @@ import { SvgOptimizerTool } from "~/components/tools/svg-optimizer-tool";
 const MESSY = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><!-- made in an editor --><metadata>leftovers</metadata><path d="M1.00000 2.00000 L3.00000 4.00000"/></svg>`;
 
 describe("<SvgOptimizerTool />", () => {
-  it("strips the editor leftovers and says what it saved", async () => {
+  it("should strip the editor leftovers and say what it saved", async () => {
     const user = userEvent.setup();
     render(<SvgOptimizerTool />);
 
@@ -21,7 +21,7 @@ describe("<SvgOptimizerTool />", () => {
     expect(await screen.findByText(/per cent smaller/)).toBeInTheDocument();
   });
 
-  it("explains markup that is not an SVG", async () => {
+  it("should explain markup that is not an SVG", async () => {
     const user = userEvent.setup();
     render(<SvgOptimizerTool />);
 

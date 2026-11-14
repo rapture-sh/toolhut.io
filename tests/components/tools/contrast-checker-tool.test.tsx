@@ -4,7 +4,7 @@ import { describe, expect, it } from "vitest";
 import { ContrastCheckerTool } from "~/components/tools/contrast-checker-tool";
 
 describe("<ContrastCheckerTool />", () => {
-  it("rates the pair the user enters, and swaps them round", async () => {
+  it("should rate the pair the user enters, and swap them round", async () => {
     const user = userEvent.setup();
     render(<ContrastCheckerTool />);
     const field = screen.getByLabelText("Text colour");

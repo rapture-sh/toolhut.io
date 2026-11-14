@@ -23,7 +23,7 @@ const kindsOf = (source: string, language: HighlightLanguage, text: string) =>
     .map((token) => token.kind);
 
 describe("tokenise", () => {
-  it("gives back exactly what it was given, for every language", () => {
+  it("should give back exactly what it was given, for every language", () => {
     for (const language of HIGHLIGHT_LANGUAGES) {
       const source = SAMPLES[language];
       const joined = tokenise(source, language)
@@ -34,17 +34,17 @@ describe("tokenise", () => {
     }
   });
 
-  it("leaves a language it does not know as one plain piece", () => {
+  it("should leave a language it does not know as one plain piece", () => {
     expect(tokenise("some words", "plain")).toEqual([
       { text: "some words", kind: "plain" },
     ]);
   });
 
-  it("has nothing to say about an empty source", () => {
+  it("should have nothing to say about an empty source", () => {
     expect(tokenise("", "json")).toEqual([]);
   });
 
-  it("tells a JSON key from a JSON string", () => {
+  it("should tell a JSON key from a JSON string", () => {
     expect(kindsOf(SAMPLES.json, "json", '"name"')).toEqual(["key"]);
     expect(kindsOf(SAMPLES.json, "json", '"toolhut"')).toEqual(["string"]);
     expect(kindsOf(SAMPLES.json, "json", "42")).toEqual(["number"]);
@@ -52,7 +52,7 @@ describe("tokenise", () => {
     expect(kindsOf(SAMPLES.json, "json", "null")).toEqual(["null"]);
   });
 
-  it("keeps a brace inside a JSON string out of the structure", () => {
+  it("should keep a brace inside a JSON string out of the structure", () => {
     const tokens = tokenise('{"tricky": "{not real}"}', "json");
     const braces = tokens.filter((token) => token.kind === "punctuation");
 
@@ -62,30 +62,30 @@ describe("tokenise", () => {
     );
   });
 
-  it("reads a YAML comment and key", () => {
+  it("should read a YAML comment and key", () => {
     expect(kindsOf(SAMPLES.yaml, "yaml", "# a note")).toEqual(["comment"]);
     expect(kindsOf(SAMPLES.yaml, "yaml", "name")).toEqual(["key"]);
   });
 
-  it("reads a TOML table and key", () => {
+  it("should read a TOML table and key", () => {
     expect(kindsOf(SAMPLES.toml, "toml", "[server]")).toEqual(["keyword"]);
     expect(kindsOf(SAMPLES.toml, "toml", "port")).toEqual(["key"]);
   });
 
-  it("reads an XML tag, attribute and value", () => {
+  it("should read an XML tag, attribute and value", () => {
     expect(kindsOf(SAMPLES.xml, "xml", "<tools")).toEqual(["tag"]);
     expect(kindsOf(SAMPLES.xml, "xml", "count")).toEqual(["attribute"]);
     expect(kindsOf(SAMPLES.xml, "xml", '"2"')).toEqual(["string"]);
     expect(kindsOf(SAMPLES.xml, "xml", "<!-- a note -->")).toEqual(["comment"]);
   });
 
-  it("reads SQL keywords whatever their case", () => {
+  it("should read SQL keywords whatever their case", () => {
     expect(kindsOf(SAMPLES.sql, "sql", "SELECT")).toEqual(["keyword"]);
     expect(kindsOf("select 1", "sql", "select")).toEqual(["keyword"]);
     expect(kindsOf(SAMPLES.sql, "sql", "'base64'")).toEqual(["string"]);
   });
 
-  it("reads a TypeScript declaration", () => {
+  it("should read a TypeScript declaration", () => {
     expect(kindsOf(SAMPLES.typescript, "typescript", "interface")).toEqual([
       "keyword",
     ]);
@@ -94,7 +94,7 @@ describe("tokenise", () => {
     ]);
   });
 
-  it("never loses a character of awkward input", () => {
+  it("should never lose a character of awkward input", () => {
     const awkward = '{"a":"\\"quoted\\"","b":[1,-2.5e10],"c":"line\\nbreak"}';
     const kinds = new Set<TokenKind>(
       tokenise(awkward, "json").map((token) => token.kind),

@@ -4,7 +4,7 @@ import { describe, expect, it } from "vitest";
 import { YamlJsonTool } from "~/components/tools/yaml-json-tool";
 
 describe("<YamlJsonTool />", () => {
-  it("converts typed YAML into JSON", async () => {
+  it("should convert typed YAML into JSON", async () => {
     const user = userEvent.setup();
     render(<YamlJsonTool />);
 

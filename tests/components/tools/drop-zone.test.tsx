@@ -7,7 +7,7 @@ const fileDrag = (files: File[]) => ({
 });
 
 describe("<DropZone />", () => {
-  it("says where the file goes while it is held over the field", () => {
+  it("should say where the file goes while it is held over the field", () => {
     render(
       <DropZone onFiles={() => undefined} label="Drop a text file here">
         <textarea aria-label="Text" />
@@ -24,7 +24,7 @@ describe("<DropZone />", () => {
     expect(screen.getByText("Drop a text file here")).toBeInTheDocument();
   });
 
-  it("hands over the dropped files and takes the overlay away", () => {
+  it("should hand over the dropped files and take the overlay away", () => {
     const onFiles = vi.fn();
     render(
       <DropZone onFiles={onFiles} label="Drop a text file here">
@@ -43,7 +43,7 @@ describe("<DropZone />", () => {
     expect(screen.queryByText("Drop a text file here")).not.toBeInTheDocument();
   });
 
-  it("ignores a drag that carries no file, such as selected text", () => {
+  it("should ignore a drag that carries no file, such as selected text", () => {
     render(
       <DropZone onFiles={() => undefined} label="Drop a text file here">
         <textarea aria-label="Text" />

@@ -4,7 +4,7 @@ import { describe, expect, it } from "vitest";
 import { Base64Tool } from "~/components/tools/base64-tool";
 
 describe("<Base64Tool />", () => {
-  it("encodes what the user types", async () => {
+  it("should encode what the user types", async () => {
     const user = userEvent.setup();
     render(<Base64Tool />);
 
@@ -13,7 +13,7 @@ describe("<Base64Tool />", () => {
     expect(screen.getByText("dG9vbGh1dA==")).toBeInTheDocument();
   });
 
-  it("explains invalid input when decoding", async () => {
+  it("should explain invalid input when decoding", async () => {
     const user = userEvent.setup();
     render(<Base64Tool />);
 

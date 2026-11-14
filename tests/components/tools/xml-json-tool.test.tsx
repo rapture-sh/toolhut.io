@@ -4,7 +4,7 @@ import { describe, expect, it } from "vitest";
 import { XmlJsonTool } from "~/components/tools/xml-json-tool";
 
 describe("<XmlJsonTool />", () => {
-  it("keeps an attribute when converting typed XML into JSON", async () => {
+  it("should keep an attribute when converting typed XML into JSON", async () => {
     const user = userEvent.setup();
     render(<XmlJsonTool />);
 

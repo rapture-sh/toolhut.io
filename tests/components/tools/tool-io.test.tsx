@@ -3,7 +3,7 @@ import { describe, expect, it, vi } from "vitest";
 import { ToolTextarea } from "~/components/tools/tool-io";
 
 describe("<ToolTextarea />", () => {
-  it("fills itself with the text of a dropped file", async () => {
+  it("should fill itself with the text of a dropped file", async () => {
     const onChange = vi.fn();
     render(
       <ToolTextarea
@@ -29,7 +29,7 @@ describe("<ToolTextarea />", () => {
     await waitFor(() => expect(onChange).toHaveBeenCalledWith("dropped text"));
   });
 
-  it("ignores a dropped image, which has no text worth showing", async () => {
+  it("should ignore a dropped image, which has no text worth showing", async () => {
     const onChange = vi.fn();
     render(
       <ToolTextarea

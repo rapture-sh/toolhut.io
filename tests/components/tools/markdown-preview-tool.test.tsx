@@ -4,7 +4,7 @@ import { describe, expect, it } from "vitest";
 import { MarkdownPreviewTool } from "~/components/tools/markdown-preview-tool";
 
 describe("<MarkdownPreviewTool />", () => {
-  it("renders the Markdown as a page", async () => {
+  it("should render the Markdown as a page", async () => {
     const user = userEvent.setup();
     render(<MarkdownPreviewTool />);
 
@@ -17,7 +17,7 @@ describe("<MarkdownPreviewTool />", () => {
     expect(screen.getAllByRole("listitem")).toHaveLength(2);
   });
 
-  it("leaves a script out of the HTML it hands back", async () => {
+  it("should leave a script out of the HTML it hands back", async () => {
     const user = userEvent.setup();
     render(<MarkdownPreviewTool />);
 

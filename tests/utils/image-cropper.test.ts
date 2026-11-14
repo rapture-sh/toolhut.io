@@ -14,7 +14,7 @@ import {
 const BOUNDS = { width: 800, height: 600 };
 
 describe("clampBox", () => {
-  it("leaves a box that already fits", () => {
+  it("should leave a box that already fits", () => {
     expect(clampBox({ x: 10, y: 20, width: 100, height: 50 }, BOUNDS)).toEqual({
       x: 10,
       y: 20,
@@ -23,25 +23,25 @@ describe("clampBox", () => {
     });
   });
 
-  it("pulls a box dragged past the bottom right corner back inside", () => {
+  it("should pull a box dragged past the bottom right corner back inside", () => {
     expect(
       clampBox({ x: 780, y: 590, width: 100, height: 50 }, BOUNDS),
     ).toEqual({ x: 700, y: 550, width: 100, height: 50 });
   });
 
-  it("pulls a box dragged past the top left corner back inside", () => {
+  it("should pull a box dragged past the top left corner back inside", () => {
     expect(
       clampBox({ x: -40, y: -10, width: 100, height: 50 }, BOUNDS),
     ).toEqual({ x: 0, y: 0, width: 100, height: 50 });
   });
 
-  it("shrinks a box bigger than the image to the whole image", () => {
+  it("should shrink a box bigger than the image to the whole image", () => {
     expect(
       clampBox({ x: -50, y: -50, width: 2000, height: 2000 }, BOUNDS),
     ).toEqual({ x: 0, y: 0, width: 800, height: 600 });
   });
 
-  it("keeps a one pixel box at one pixel", () => {
+  it("should keep a one pixel box at one pixel", () => {
     expect(clampBox({ x: 799, y: 599, width: 1, height: 1 }, BOUNDS)).toEqual({
       x: 799,
       y: 599,
@@ -50,13 +50,13 @@ describe("clampBox", () => {
     });
   });
 
-  it("rounds a box to whole source pixels", () => {
+  it("should round a box to whole source pixels", () => {
     expect(
       clampBox({ x: 10.4, y: 10.6, width: 99.5, height: 50.2 }, BOUNDS),
     ).toEqual({ x: 10, y: 11, width: 100, height: 50 });
   });
 
-  it("never returns a box smaller than one pixel", () => {
+  it("should never return a box smaller than one pixel", () => {
     expect(clampBox({ x: 5, y: 5, width: 0, height: -3 }, BOUNDS)).toEqual({
       x: 5,
       y: 5,
@@ -65,13 +65,13 @@ describe("clampBox", () => {
     });
   });
 
-  it("rejects an image with no size", () => {
+  it("should reject an image with no size", () => {
     expect(() =>
       clampBox({ x: 0, y: 0, width: 10, height: 10 }, { width: 0, height: 10 }),
     ).toThrow(CropError);
   });
 
-  it("rejects a box with a value that is not a number", () => {
+  it("should reject a box with a value that is not a number", () => {
     expect(() =>
       clampBox({ x: Number.NaN, y: 0, width: 10, height: 10 }, BOUNDS),
     ).toThrow(CropError);
@@ -79,13 +79,13 @@ describe("clampBox", () => {
 });
 
 describe("applyRatio", () => {
-  it("only clamps a free crop", () => {
+  it("should only clamp a free crop", () => {
     expect(
       applyRatio({ x: 0, y: 0, width: 300, height: 100 }, null, BOUNDS),
     ).toEqual({ x: 0, y: 0, width: 300, height: 100 });
   });
 
-  it("makes a square box from a wide one, around the same middle", () => {
+  it("should make a square box from a wide one, around the same middle", () => {
     const box = applyRatio(
       { x: 100, y: 200, width: 300, height: 100 },
       1,
@@ -95,7 +95,7 @@ describe("applyRatio", () => {
     expect(box).toEqual({ x: 100, y: 100, width: 300, height: 300 });
   });
 
-  it("fits a ratio taller than the image inside it", () => {
+  it("should fit a ratio taller than the image inside it", () => {
     const box = applyRatio({ x: 0, y: 0, width: 700, height: 700 }, 9 / 16, {
       width: 800,
       height: 400,
@@ -106,7 +106,7 @@ describe("applyRatio", () => {
     expect(box.y).toBe(0);
   });
 
-  it("fits a ratio wider than the image inside it", () => {
+  it("should fit a ratio wider than the image inside it", () => {
     const box = applyRatio({ x: 0, y: 0, width: 400, height: 400 }, 16 / 9, {
       width: 300,
       height: 400,
@@ -116,14 +116,14 @@ describe("applyRatio", () => {
     expect(box.height).toBe(169);
   });
 
-  it("keeps the box inside the image when the middle is on an edge", () => {
+  it("should keep the box inside the image when the middle is on an edge", () => {
     const box = applyRatio({ x: 790, y: 0, width: 20, height: 20 }, 1, BOUNDS);
 
     expect(box.x + box.width).toBeLessThanOrEqual(BOUNDS.width);
     expect(box.y + box.height).toBeLessThanOrEqual(BOUNDS.height);
   });
 
-  it("rejects a ratio that is not a positive number", () => {
+  it("should reject a ratio that is not a positive number", () => {
     expect(() =>
       applyRatio({ x: 0, y: 0, width: 10, height: 10 }, 0, BOUNDS),
     ).toThrow(CropError);
@@ -131,7 +131,7 @@ describe("applyRatio", () => {
 });
 
 describe("scaleBox", () => {
-  it("scales display pixels up to source pixels", () => {
+  it("should scale display pixels up to source pixels", () => {
     expect(scaleBox({ x: 10, y: 20, width: 100, height: 50 }, 2)).toEqual({
       x: 20,
       y: 40,
@@ -140,13 +140,13 @@ describe("scaleBox", () => {
     });
   });
 
-  it("round-trips a box through a scale and back", () => {
+  it("should round-trip a box through a scale and back", () => {
     const box = { x: 40, y: 80, width: 200, height: 160 };
 
     expect(scaleBox(scaleBox(box, 1 / 4), 4)).toEqual(box);
   });
 
-  it("keeps a tiny box at one pixel rather than nothing", () => {
+  it("should keep a tiny box at one pixel rather than nothing", () => {
     expect(scaleBox({ x: 0, y: 0, width: 2, height: 2 }, 0.1)).toEqual({
       x: 0,
       y: 0,
@@ -155,7 +155,7 @@ describe("scaleBox", () => {
     });
   });
 
-  it("rejects a factor that is not positive", () => {
+  it("should reject a factor that is not positive", () => {
     expect(() => scaleBox({ x: 0, y: 0, width: 4, height: 4 }, 0)).toThrow(
       CropError,
     );
@@ -163,13 +163,13 @@ describe("scaleBox", () => {
 });
 
 describe("moveBox", () => {
-  it("moves the box by the delta", () => {
+  it("should move the box by the delta", () => {
     expect(
       moveBox({ x: 10, y: 10, width: 100, height: 100 }, 25, -5, BOUNDS),
     ).toEqual({ x: 35, y: 5, width: 100, height: 100 });
   });
 
-  it("stops at the edge instead of leaving the image", () => {
+  it("should stop at the edge instead of leaving the image", () => {
     expect(
       moveBox({ x: 700, y: 10, width: 100, height: 100 }, 400, -400, BOUNDS),
     ).toEqual({ x: 700, y: 0, width: 100, height: 100 });
@@ -179,7 +179,7 @@ describe("moveBox", () => {
 describe("resizeBox", () => {
   const box = { x: 100, y: 100, width: 200, height: 200 };
 
-  it("moves only the edges the handle touches", () => {
+  it("should move only the edges the handle touches", () => {
     expect(resizeBox(box, "se", 50, 20, BOUNDS)).toEqual({
       x: 100,
       y: 100,
@@ -188,7 +188,7 @@ describe("resizeBox", () => {
     });
   });
 
-  it("keeps the far corner still when dragging the top left", () => {
+  it("should keep the far corner still when dragging the top left", () => {
     expect(resizeBox(box, "nw", -50, -50, BOUNDS)).toEqual({
       x: 50,
       y: 50,
@@ -197,7 +197,7 @@ describe("resizeBox", () => {
     });
   });
 
-  it("changes only the width on a side handle", () => {
+  it("should change only the width on a side handle", () => {
     expect(resizeBox(box, "e", -40, 999, BOUNDS)).toEqual({
       x: 100,
       y: 100,
@@ -206,14 +206,14 @@ describe("resizeBox", () => {
     });
   });
 
-  it("clamps a handle dragged outside the image", () => {
+  it("should clamp a handle dragged outside the image", () => {
     const resized = resizeBox(box, "se", 10_000, 10_000, BOUNDS);
 
     expect(resized.x + resized.width).toBe(BOUNDS.width);
     expect(resized.y + resized.height).toBe(BOUNDS.height);
   });
 
-  it("never collapses the box past one pixel", () => {
+  it("should never collapse the box past one pixel", () => {
     expect(resizeBox(box, "se", -500, -500, BOUNDS)).toEqual({
       x: 100,
       y: 100,
@@ -222,7 +222,7 @@ describe("resizeBox", () => {
     });
   });
 
-  it("holds a ratio while a corner is dragged", () => {
+  it("should hold a ratio while a corner is dragged", () => {
     const resized = resizeBox(box, "se", 100, 10, BOUNDS, 1);
 
     expect(resized.width).toBe(resized.height);
@@ -230,7 +230,7 @@ describe("resizeBox", () => {
     expect(resized.y).toBe(100);
   });
 
-  it("holds a ratio against the far edge when dragging the top left", () => {
+  it("should hold a ratio against the far edge when dragging the top left", () => {
     const resized = resizeBox(box, "nw", -90, -10, BOUNDS, 1);
 
     expect(resized.width).toBe(resized.height);
@@ -240,7 +240,7 @@ describe("resizeBox", () => {
 });
 
 describe("defaultBox", () => {
-  it("covers eight tenths of the image, centred", () => {
+  it("should cover eight tenths of the image, centred", () => {
     expect(defaultBox(BOUNDS)).toEqual({
       x: 80,
       y: 60,
@@ -249,35 +249,35 @@ describe("defaultBox", () => {
     });
   });
 
-  it("starts on the ratio it is given", () => {
+  it("should start on the ratio it is given", () => {
     const box = defaultBox(BOUNDS, 1);
 
     expect(box.width).toBe(box.height);
   });
 
-  it("rejects an image with no size", () => {
+  it("should reject an image with no size", () => {
     expect(() => defaultBox({ width: 0, height: 0 })).toThrow(CropError);
   });
 });
 
 describe("ratioFor", () => {
-  it("has no ratio for a free crop", () => {
+  it("should have no ratio for a free crop", () => {
     expect(ratioFor("free")).toBeNull();
   });
 
-  it("reads a preset as width over height", () => {
+  it("should read a preset as width over height", () => {
     expect(ratioFor("wide")).toBeCloseTo(16 / 9);
   });
 });
 
 describe("cropName", () => {
-  it("names the crop after the original and its size", () => {
+  it("should name the crop after the original and its size", () => {
     expect(
       cropName("holiday.jpg", { x: 0, y: 0, width: 800, height: 600 }),
     ).toBe("holiday-crop-800x600.png");
   });
 
-  it("falls back to a name when the original has none", () => {
+  it("should fall back to a name when the original has none", () => {
     expect(cropName("", { x: 0, y: 0, width: 10, height: 10 })).toBe(
       "download-crop-10x10.png",
     );

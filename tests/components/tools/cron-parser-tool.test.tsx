@@ -4,7 +4,7 @@ import { describe, expect, it } from "vitest";
 import { CronParserTool } from "~/components/tools/cron-parser-tool";
 
 describe("<CronParserTool />", () => {
-  it("explains the expression the user types", async () => {
+  it("should explain the expression the user types", async () => {
     const user = userEvent.setup();
     render(<CronParserTool />);
 

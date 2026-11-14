@@ -42,7 +42,7 @@ const fixed = (values: number[]) => {
 };
 
 describe("generatePassword", () => {
-  it("includes a character from every set that is on", () => {
+  it("should include a character from every set that is on", () => {
     const password = generatePassword(options({ length: 24 }));
 
     expect(password).toMatch(/[a-z]/);
@@ -51,7 +51,7 @@ describe("generatePassword", () => {
     expect(password).toMatch(/[!@#$%^&*()\-_=+[\]{};:,.?/]/);
   });
 
-  it("uses only the sets that are on", () => {
+  it("should use only the sets that are on", () => {
     const password = generatePassword(
       options({ length: 40, uppercase: false, digits: false, symbols: false }),
     );
@@ -59,12 +59,12 @@ describe("generatePassword", () => {
     expect(password).toMatch(/^[a-z]+$/);
   });
 
-  it("honours the length, at both ends of the slider", () => {
+  it("should honour the length, at both ends of the slider", () => {
     expect(generatePassword(options({ length: 8 }))).toHaveLength(8);
     expect(generatePassword(options({ length: 128 }))).toHaveLength(128);
   });
 
-  it("leaves out lookalike characters when asked", () => {
+  it("should leave out lookalike characters when asked", () => {
     const password = generatePassword(
       options({ length: 200, avoidAmbiguous: true }),
     );
@@ -73,7 +73,7 @@ describe("generatePassword", () => {
     expect(password).toHaveLength(200);
   });
 
-  it("draws every character from the injected bytes, in order", () => {
+  it("should draw every character from the injected bytes, in order", () => {
     const password = generatePassword(
       options({
         length: 10,
@@ -87,7 +87,7 @@ describe("generatePassword", () => {
     expect([...password].sort().join("")).toBe("0123456789");
   });
 
-  it("throws away a byte that would bias the alphabet", () => {
+  it("should throw away a byte that would bias the alphabet", () => {
     const password = generatePassword(
       options({
         length: 1,
@@ -101,7 +101,7 @@ describe("generatePassword", () => {
     expect(password).toBe("a");
   });
 
-  it("refuses a combination it cannot satisfy", () => {
+  it("should refuse a combination it cannot satisfy", () => {
     expect(() => generatePassword(options({ length: 3 }))).toThrow(
       PasswordOptionsError,
     );
@@ -110,7 +110,7 @@ describe("generatePassword", () => {
     );
   });
 
-  it("refuses to generate with every set off", () => {
+  it("should refuse to generate with every set off", () => {
     expect(() =>
       generatePassword(
         options({
@@ -123,7 +123,7 @@ describe("generatePassword", () => {
     ).toThrow(PasswordOptionsError);
   });
 
-  it("refuses a length that is not a usable number", () => {
+  it("should refuse a length that is not a usable number", () => {
     expect(() => generatePassword(options({ length: 0 }))).toThrow(
       PasswordOptionsError,
     );
@@ -135,31 +135,31 @@ describe("generatePassword", () => {
     );
   });
 
-  it("does not repeat itself on the platform generator", () => {
+  it("should not repeat itself on the platform generator", () => {
     expect(generatePassword(options())).not.toBe(generatePassword(options()));
   });
 });
 
 describe("passwordStrength", () => {
-  it("counts only the sets the password actually uses", () => {
+  it("should count only the sets the password actually uses", () => {
     expect(passwordStrength("abcdefgh").alphabet).toBe(26);
     expect(passwordStrength("abcdEFGH").alphabet).toBe(52);
     expect(passwordStrength("abcdEF12").alphabet).toBe(62);
     expect(passwordStrength("abcdEF12!").alphabet).toBe(62 + SYMBOLS.length);
   });
 
-  it("reads entropy as length times the bits per character", () => {
+  it("should read entropy as length times the bits per character", () => {
     expect(passwordStrength("abcd").bits).toBeCloseTo(4 * Math.log2(26), 1);
   });
 
-  it("rises with length", () => {
+  it("should rise with length", () => {
     const short = passwordStrength("aB3!aB3!");
     const long = passwordStrength("aB3!aB3!aB3!aB3!aB3!");
 
     expect(long.bits).toBeGreaterThan(short.bits);
   });
 
-  it("labels an empty password as weak with no entropy", () => {
+  it("should label an empty password as weak with no entropy", () => {
     expect(passwordStrength("")).toEqual({
       alphabet: 0,
       bits: 0,
@@ -167,7 +167,7 @@ describe("passwordStrength", () => {
     });
   });
 
-  it("moves through the labels as the password grows", () => {
+  it("should move through the labels as the password grows", () => {
     expect(passwordStrength("aB3!aB").label).toBe("weak");
     expect(passwordStrength("aB3!aB3!a").label).toBe("fair");
     expect(passwordStrength("aB3!aB3!aB3!").label).toBe("strong");

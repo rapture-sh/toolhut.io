@@ -8,7 +8,7 @@ import {
 } from "~/utils/image-compressor";
 
 describe("savings", () => {
-  it("reports how much of the original is gone", () => {
+  it("should report how much of the original is gone", () => {
     expect(savings(1000, 400)).toEqual({
       percent: 60,
       smaller: true,
@@ -16,7 +16,7 @@ describe("savings", () => {
     });
   });
 
-  it("says so when the result grew instead", () => {
+  it("should say so when the result grew instead", () => {
     expect(savings(1000, 1200)).toEqual({
       percent: -20,
       smaller: false,
@@ -24,19 +24,19 @@ describe("savings", () => {
     });
   });
 
-  it("calls a difference under half a percent the same size", () => {
+  it("should call a difference under half a percent the same size", () => {
     expect(savings(1000, 998).label).toBe("about the same size");
   });
 
-  it("reports an empty result as entirely saved", () => {
+  it("should report an empty result as entirely saved", () => {
     expect(savings(2048, 0).percent).toBe(100);
   });
 
-  it("rejects an empty original, which has no percentage", () => {
+  it("should reject an empty original, which has no percentage", () => {
     expect(() => savings(0, 0)).toThrow(CompressionInputError);
   });
 
-  it("rejects sizes that are not numbers", () => {
+  it("should reject sizes that are not numbers", () => {
     expect(() => savings(Number.NaN, 10)).toThrow(CompressionInputError);
     expect(() => savings(10, Number.POSITIVE_INFINITY)).toThrow(
       CompressionInputError,
@@ -45,41 +45,41 @@ describe("savings", () => {
 });
 
 describe("clampQuality", () => {
-  it("keeps a quality inside the range a canvas accepts", () => {
+  it("should keep a quality inside the range a canvas accepts", () => {
     expect(clampQuality(1.4)).toBe(1);
     expect(clampQuality(0)).toBe(0.1);
   });
 
-  it("rounds away floating point dust from a slider", () => {
+  it("should round away floating point dust from a slider", () => {
     expect(clampQuality(0.8200000000000001)).toBe(0.82);
   });
 
-  it("rejects a quality that is not a number", () => {
+  it("should reject a quality that is not a number", () => {
     expect(() => clampQuality(Number.NaN)).toThrow(CompressionInputError);
   });
 });
 
 describe("qualityPercent", () => {
-  it("shows a fraction as the whole percentage a slider reads", () => {
+  it("should show a fraction as the whole percentage a slider reads", () => {
     expect(qualityPercent(0.82)).toBe(82);
     expect(qualityPercent(2)).toBe(100);
   });
 });
 
 describe("compressedName", () => {
-  it("keeps the stem and takes the extension of the new format", () => {
+  it("should keep the stem and take the extension of the new format", () => {
     expect(compressedName("holiday.png", "jpeg")).toBe(
       "holiday-compressed.jpg",
     );
   });
 
-  it("handles a name that carries no extension", () => {
+  it("should handle a name that carries no extension", () => {
     expect(compressedName("screenshot", "webp")).toBe(
       "screenshot-compressed.webp",
     );
   });
 
-  it("falls back to a usable name when there is none", () => {
+  it("should fall back to a usable name when there is none", () => {
     expect(compressedName("   ", "png")).toBe("download-compressed.png");
   });
 });

@@ -8,12 +8,12 @@ import {
 } from "~/utils/image-format";
 
 describe("image formats", () => {
-  it("gives JPEG the extension people expect", () => {
+  it("should give JPEG the extension people expect", () => {
     expect(extensionFor("jpeg")).toBe("jpg");
     expect(typeFor("jpeg")).toBe("image/jpeg");
   });
 
-  it("knows which formats throw detail away", () => {
+  it("should know which formats throw detail away", () => {
     expect(isLossy("png")).toBe(false);
     expect(isLossy("jpeg")).toBe(true);
     expect(isLossy("webp")).toBe(true);
@@ -21,20 +21,20 @@ describe("image formats", () => {
 });
 
 describe("formatForType", () => {
-  it("matches a media type whatever its case", () => {
+  it("should match a media type whatever its case", () => {
     expect(formatForType("IMAGE/WEBP")).toBe("webp");
   });
 
-  it("treats the older image/jpg spelling as JPEG", () => {
+  it("should treat the older image/jpg spelling as JPEG", () => {
     expect(formatForType("image/jpg")).toBe("jpeg");
   });
 
-  it("returns nothing for a format a browser cannot write", () => {
+  it("should return nothing for a format a browser cannot write", () => {
     expect(formatForType("image/avif")).toBeUndefined();
     expect(formatForType("")).toBeUndefined();
   });
 
-  it("round-trips every format it lists", () => {
+  it("should round-trip every format it lists", () => {
     for (const format of IMAGE_FORMAT_LIST) {
       expect(formatForType(typeFor(format))).toBe(format);
     }

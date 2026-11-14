@@ -20,7 +20,7 @@ function rowValue(rows: ReturnType<typeof parseUserAgent>, label: string) {
 }
 
 describe("parseUserAgent", () => {
-  it("reads Chrome on Windows", () => {
+  it("should read Chrome on Windows", () => {
     const rows = parseUserAgent(CHROME_ON_WINDOWS);
 
     expect(rowValue(rows, "Browser")).toBe("Chrome");
@@ -31,7 +31,7 @@ describe("parseUserAgent", () => {
     expect(rowValue(rows, "Platform")).toBe("Desktop");
   });
 
-  it("reads Safari on an iPhone, device and all", () => {
+  it("should read Safari on an iPhone, device and all", () => {
     const rows = parseUserAgent(SAFARI_ON_IPHONE);
 
     expect(rowValue(rows, "Browser")).toBe("Safari");
@@ -40,7 +40,7 @@ describe("parseUserAgent", () => {
     expect(rowValue(rows, "Device")).toBe("Apple iPhone");
   });
 
-  it("says what a bot string leaves out instead of leaving a blank", () => {
+  it("should say what a bot string leaves out instead of leaving a blank", () => {
     const rows = parseUserAgent(GOOGLEBOT);
 
     expect(rowValue(rows, "Browser")).toBe("Googlebot");
@@ -49,18 +49,18 @@ describe("parseUserAgent", () => {
     expect(rowValue(rows, "Platform")).toBe("Bot");
   });
 
-  it("keeps the same rows in the same order whatever the string", () => {
+  it("should keep the same rows in the same order whatever the string", () => {
     const labels = (input: string) =>
       parseUserAgent(input).map((row) => row.label);
 
     expect(labels(GOOGLEBOT)).toEqual(labels(CHROME_ON_WINDOWS));
   });
 
-  it("refuses an empty string", () => {
+  it("should refuse an empty string", () => {
     expect(() => parseUserAgent("   ")).toThrow(UserAgentError);
   });
 
-  it("reads a string with whitespace around it", () => {
+  it("should read a string with whitespace around it", () => {
     const rows = parseUserAgent(`  ${CHROME_ON_WINDOWS}  `);
 
     expect(rowValue(rows, "Browser")).toBe("Chrome");
@@ -68,14 +68,14 @@ describe("parseUserAgent", () => {
 });
 
 describe("summariseUserAgent", () => {
-  it("writes one labelled line per row", () => {
+  it("should write one labelled line per row", () => {
     const summary = summariseUserAgent(parseUserAgent(CHROME_ON_WINDOWS));
 
     expect(summary.split("\n")).toHaveLength(7);
     expect(summary).toContain("Browser: Chrome");
   });
 
-  it("is empty when there are no rows", () => {
+  it("should be empty when there are no rows", () => {
     expect(summariseUserAgent([])).toBe("");
   });
 });

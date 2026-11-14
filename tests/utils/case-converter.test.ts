@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { splitWords, toCase } from "~/utils/case-converter";
 
 describe("splitWords", () => {
-  it("splits each of the usual casings the same way", () => {
+  it("should split each of the usual casings the same way", () => {
     expect(splitWords("helloWorldAgain")).toEqual(["hello", "World", "Again"]);
     expect(splitWords("hello_world_again")).toEqual([
       "hello",
@@ -21,7 +21,7 @@ describe("splitWords", () => {
     ]);
   });
 
-  it("keeps an acronym whole instead of one word per letter", () => {
+  it("should keep an acronym whole instead of one word per letter", () => {
     expect(splitWords("parseHTTPResponse")).toEqual([
       "parse",
       "HTTP",
@@ -29,11 +29,11 @@ describe("splitWords", () => {
     ]);
   });
 
-  it("keeps digits with the word they belong to", () => {
+  it("should keep digits with the word they belong to", () => {
     expect(splitWords("base64Encode")).toEqual(["base64", "Encode"]);
   });
 
-  it("returns nothing for input with no words in it", () => {
+  it("should return nothing for input with no words in it", () => {
     expect(splitWords("   __  -- ")).toEqual([]);
   });
 });
@@ -41,7 +41,7 @@ describe("splitWords", () => {
 describe("toCase", () => {
   const input = "parse HTTP response";
 
-  it("writes each casing", () => {
+  it("should write each casing", () => {
     expect(toCase(input, "camel")).toBe("parseHttpResponse");
     expect(toCase(input, "pascal")).toBe("ParseHttpResponse");
     expect(toCase(input, "snake")).toBe("parse_http_response");
@@ -51,12 +51,12 @@ describe("toCase", () => {
     expect(toCase(input, "sentence")).toBe("Parse http response");
   });
 
-  it("converts between casings, not just from plain words", () => {
+  it("should convert between casings, not just from plain words", () => {
     expect(toCase("user_first_name", "camel")).toBe("userFirstName");
     expect(toCase("userFirstName", "kebab")).toBe("user-first-name");
   });
 
-  it("returns an empty string when there is nothing to convert", () => {
+  it("should return an empty string when there is nothing to convert", () => {
     expect(toCase("", "camel")).toBe("");
     expect(toCase("  -_ ", "snake")).toBe("");
   });

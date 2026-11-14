@@ -39,7 +39,7 @@ describe("<ToolExplorer />", () => {
     window.history.replaceState(null, "", "/");
   });
 
-  it("offers the popular tools before anything is typed", async () => {
+  it("should offer the popular tools before anything is typed", async () => {
     const user = userEvent.setup();
     render(<ToolExplorer />);
 
@@ -49,7 +49,7 @@ describe("<ToolExplorer />", () => {
     expect(names()).toHaveLength(3);
   });
 
-  it("puts the tool named after the words above one that merely mentions them", async () => {
+  it("should put the tool named after the words above one that merely mentions them", async () => {
     const user = userEvent.setup();
     render(<ToolExplorer />);
 
@@ -61,7 +61,7 @@ describe("<ToolExplorer />", () => {
     expect(names()[0]).toContain("Image");
   });
 
-  it("opens the highlighted tool when you arrow down and press Enter", async () => {
+  it("should open the highlighted tool when you arrow down and press Enter", async () => {
     const user = userEvent.setup();
     render(<ToolExplorer />);
 
@@ -72,7 +72,7 @@ describe("<ToolExplorer />", () => {
     expect(push).toHaveBeenCalledWith("/tools/base64");
   });
 
-  it("searches for the words themselves when nothing is highlighted", async () => {
+  it("should search for the words themselves when nothing is highlighted", async () => {
     const user = userEvent.setup();
     render(<ToolExplorer />);
 
@@ -85,7 +85,7 @@ describe("<ToolExplorer />", () => {
     expect(push).not.toHaveBeenCalled();
   });
 
-  it("leaves the grid alone until the search is committed", async () => {
+  it("should leave the grid alone until the search is committed", async () => {
     const user = userEvent.setup();
     render(<ToolExplorer />);
 
@@ -106,7 +106,7 @@ describe("<ToolExplorer />", () => {
     expect(screen.getByRole("link", { name: /QR code/ })).toBeInTheDocument();
   });
 
-  it("clears the filter when the field is emptied and committed", async () => {
+  it("should clear the filter when the field is emptied and committed", async () => {
     window.history.replaceState(null, "", "/?q=qr");
     const user = userEvent.setup();
     render(<ToolExplorer />);
@@ -120,7 +120,7 @@ describe("<ToolExplorer />", () => {
     ).toBeInTheDocument();
   });
 
-  it("takes the cursor on a plain visit, so you can type straight away", () => {
+  it("should take the cursor on a plain visit, so you can type straight away", () => {
     const pointer = withFinePointer();
     render(<ToolExplorer />);
 
@@ -131,7 +131,7 @@ describe("<ToolExplorer />", () => {
     pointer.restore();
   });
 
-  it("stays out of the way when the address already carries a search", () => {
+  it("should stay out of the way when the address already carries a search", () => {
     window.history.replaceState(null, "", "/?q=base64");
     const pointer = withFinePointer();
     render(<ToolExplorer />);
@@ -145,7 +145,7 @@ describe("<ToolExplorer />", () => {
     pointer.restore();
   });
 
-  it("starts from the words already in the address", async () => {
+  it("should start from the words already in the address", async () => {
     window.history.replaceState(null, "", "/?q=base64");
     render(<ToolExplorer />);
 

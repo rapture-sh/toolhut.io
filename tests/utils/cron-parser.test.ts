@@ -11,39 +11,39 @@ import {
 const NOW = new Date("2024-01-02T00:07:00Z");
 
 describe("explainCron", () => {
-  it("reads a five field expression", () => {
+  it("should read a five field expression", () => {
     expect(explainCron("0 9 * * *")).toBe("At 09:00");
   });
 
-  it("reads a step", () => {
+  it("should read a step", () => {
     expect(explainCron("*/15 * * * *")).toBe("Every 15 minutes");
   });
 
-  it("reads a named weekday", () => {
+  it("should read a named weekday", () => {
     expect(explainCron("0 9 * * MON")).toContain("Monday");
   });
 
-  it("ignores the whitespace around an expression", () => {
+  it("should ignore the whitespace around an expression", () => {
     expect(explainCron("  0 9 * * *  ")).toBe(explainCron("0 9 * * *"));
   });
 
-  it("asks for an expression when there is none", () => {
+  it("should ask for an expression when there is none", () => {
     expect(() => explainCron("   ")).toThrow(CronParseError);
   });
 
-  it("says how many fields are missing rather than guessing", () => {
+  it("should say how many fields are missing rather than guessing", () => {
     expect(() => explainCron("0 9")).toThrow(
       /five fields: minute, hour, day of month, month and day of week/,
     );
   });
 
-  it("refuses a field that cannot mean anything", () => {
+  it("should refuse a field that cannot mean anything", () => {
     expect(() => explainCron("99 * * * *")).toThrow(CronParseError);
   });
 });
 
 describe("nextRuns", () => {
-  it("lists the runs of a step from the moment it is given", () => {
+  it("should list the runs of a step from the moment it is given", () => {
     const runs = nextRuns("*/15 * * * *", {
       count: 3,
       now: NOW,
@@ -57,7 +57,7 @@ describe("nextRuns", () => {
     ]);
   });
 
-  it("follows a named weekday", () => {
+  it("should follow a named weekday", () => {
     const [first] = nextRuns("0 9 * * MON", {
       count: 1,
       now: NOW,
@@ -67,7 +67,7 @@ describe("nextRuns", () => {
     expect(first?.toISOString()).toBe("2024-01-08T09:00:00.000Z");
   });
 
-  it("reads the expression in the zone it was given", () => {
+  it("should read the expression in the zone it was given", () => {
     const [first] = nextRuns("0 9 * * *", {
       count: 1,
       now: NOW,
@@ -77,7 +77,7 @@ describe("nextRuns", () => {
     expect(first?.toISOString()).toBe("2024-01-02T08:00:00.000Z");
   });
 
-  it("returns the runs in ascending order", () => {
+  it("should return the runs in ascending order", () => {
     const runs = nextRuns("0 0 1 * *", { count: 5, now: NOW, timeZone: "UTC" });
 
     expect(runs).toHaveLength(5);
@@ -88,11 +88,11 @@ describe("nextRuns", () => {
     }
   });
 
-  it("asks for an expression when there is none", () => {
+  it("should ask for an expression when there is none", () => {
     expect(() => nextRuns("", { now: NOW })).toThrow(CronParseError);
   });
 
-  it("refuses an expression it cannot parse", () => {
+  it("should refuse an expression it cannot parse", () => {
     expect(() => nextRuns("nope nope nope nope nope", { now: NOW })).toThrow(
       CronParseError,
     );
@@ -100,7 +100,7 @@ describe("nextRuns", () => {
 });
 
 describe("cronFields", () => {
-  it("lines a token up with every field", () => {
+  it("should line a token up with every field", () => {
     expect(cronFields("*/15 0 1 2 MON")).toEqual([
       "*/15",
       "0",
@@ -110,18 +110,18 @@ describe("cronFields", () => {
     ]);
   });
 
-  it("leaves the fields that are not written yet blank", () => {
+  it("should leave the fields that are not written yet blank", () => {
     expect(cronFields("0 9")).toEqual(["0", "9", "", "", ""]);
   });
 
-  it("gives a blank for every field of an empty expression", () => {
+  it("should give a blank for every field of an empty expression", () => {
     expect(cronFields("")).toEqual(["", "", "", "", ""]);
     expect(cronFields("")).toHaveLength(CRON_FIELD_LABELS.length);
   });
 });
 
 describe("CRON_PRESETS", () => {
-  it("offers presets that every reader understands", () => {
+  it("should offer presets that every reader understands", () => {
     for (const preset of CRON_PRESETS) {
       expect(() => explainCron(preset.expression)).not.toThrow();
       expect(

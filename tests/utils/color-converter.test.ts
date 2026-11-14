@@ -3,7 +3,7 @@ import { ColorParseError, parseColor } from "~/utils/color";
 import { convertColor } from "~/utils/color-converter";
 
 describe("convertColor", () => {
-  it("writes the colour in all four formats, HEX first", () => {
+  it("should write the colour in all four formats, HEX first", () => {
     const { conversions } = convertColor("#aabbcc");
 
     expect(conversions.map((row) => [row.label, row.value])).toEqual([
@@ -14,11 +14,11 @@ describe("convertColor", () => {
     ]);
   });
 
-  it("gives back the colour it parsed", () => {
+  it("should give back the colour it parsed", () => {
     expect(convertColor("rebeccapurple").color).toEqual(parseColor("#663399"));
   });
 
-  it("round trips: every value it writes parses back to the same colour", () => {
+  it("should write every value so that it parses back to the same colour", () => {
     const { color, conversions } = convertColor("hsl(14, 90%, 52%)");
 
     for (const row of conversions) {
@@ -32,11 +32,11 @@ describe("convertColor", () => {
     }
   });
 
-  it("rejects empty input", () => {
+  it("should reject empty input", () => {
     expect(() => convertColor("")).toThrow(ColorParseError);
   });
 
-  it("rejects input that is not a colour", () => {
+  it("should reject input that is not a colour", () => {
     expect(() => convertColor("#ggg")).toThrow(ColorParseError);
   });
 });

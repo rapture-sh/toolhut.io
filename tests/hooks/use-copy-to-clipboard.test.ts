@@ -14,7 +14,7 @@ beforeEach(() => {
 });
 
 describe("useCopyToClipboard", () => {
-  it("writes the value and reports that it copied", async () => {
+  it("should write the value and report that it copied", async () => {
     const { result } = renderHook(() => useCopyToClipboard());
 
     expect(result.current.copied).toBe(false);
@@ -27,7 +27,7 @@ describe("useCopyToClipboard", () => {
     expect(result.current.copied).toBe(true);
   });
 
-  it("does nothing for an empty value", async () => {
+  it("should do nothing for an empty value", async () => {
     const { result } = renderHook(() => useCopyToClipboard());
 
     await act(async () => {
@@ -38,7 +38,7 @@ describe("useCopyToClipboard", () => {
     expect(result.current.copied).toBe(false);
   });
 
-  it("reports failure when the clipboard is unavailable", async () => {
+  it("should report failure when the clipboard is unavailable", async () => {
     writeText.mockRejectedValue(new Error("denied"));
     const { result } = renderHook(() => useCopyToClipboard());
 

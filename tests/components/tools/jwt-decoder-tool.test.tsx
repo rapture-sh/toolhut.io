@@ -7,7 +7,7 @@ const TOKEN =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkphbmUgRG9lIiwiaXNzIjoidG9vbGh1dCIsImlhdCI6MTUxNjIzOTAyMiwiZXhwIjoxNTE2MjQyNjIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c";
 
 describe("<JwtDecoderTool />", () => {
-  it("shows the header, the claims and the expiry of a pasted token", async () => {
+  it("should show the header, the claims and the expiry of a pasted token", async () => {
     const user = userEvent.setup();
     render(<JwtDecoderTool />);
 

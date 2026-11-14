@@ -17,7 +17,7 @@ const ISSUED_AT = 1516239022000;
 const EXPIRES_AT = 1516242622000;
 
 describe("decodeJwt", () => {
-  it("reads the header, the payload and the untouched signature", () => {
+  it("should read the header, the payload and the untouched signature", () => {
     const decoded = decodeJwt(TOKEN);
 
     expect(decoded.header).toEqual({ alg: "HS256", typ: "JWT" });
@@ -32,43 +32,43 @@ describe("decodeJwt", () => {
     expect(decoded.raw).toBe(TOKEN);
   });
 
-  it("ignores a Bearer prefix and any wrapped whitespace", () => {
+  it("should ignore a Bearer prefix and any wrapped whitespace", () => {
     const decoded = decodeJwt(`  Bearer ${HEADER}.${PAYLOAD}\n.${SIGNATURE} `);
 
     expect(decoded.raw).toBe(TOKEN);
     expect(decoded.header).toEqual({ alg: "HS256", typ: "JWT" });
   });
 
-  it("decodes the url safe alphabet without padding", () => {
+  it("should decode the url safe alphabet without padding", () => {
     const decoded = decodeJwt(`${HEADER}.eyJuYW1lIjoiw6Q_w7Y-In0.${SIGNATURE}`);
 
     expect(decoded.payload).toEqual({ name: "ä?ö>" });
   });
 
-  it("accepts an empty signature, which an unsigned token has", () => {
+  it("should accept an empty signature, which an unsigned token has", () => {
     const decoded = decodeJwt(`${HEADER}.${PAYLOAD}.`);
 
     expect(decoded.signature).toBe("");
   });
 
-  it("rejects a token that is not three parts", () => {
+  it("should reject a token that is not three parts", () => {
     expect(() => decodeJwt(`${HEADER}.${PAYLOAD}`)).toThrow(JwtDecodeError);
     expect(() => decodeJwt(`${HEADER}.${PAYLOAD}`)).toThrow(
       "A JSON web token has three parts separated by dots. This one has 2.",
     );
   });
 
-  it("rejects an empty input", () => {
+  it("should reject an empty input", () => {
     expect(() => decodeJwt("   ")).toThrow(JwtDecodeError);
   });
 
-  it("rejects a part that is not base64url", () => {
+  it("should reject a part that is not base64url", () => {
     expect(() => decodeJwt(`${HEADER}.pay!load.${SIGNATURE}`)).toThrow(
       "The payload of this token is not base64url text, so it cannot be decoded.",
     );
   });
 
-  it("rejects a part that decodes to something other than a JSON object", () => {
+  it("should reject a part that decodes to something other than a JSON object", () => {
     const text = "aGVsbG8";
     const array = "WzEsMl0";
 
@@ -80,7 +80,7 @@ describe("decodeJwt", () => {
     );
   });
 
-  it("rejects an empty header", () => {
+  it("should reject an empty header", () => {
     expect(() => decodeJwt(`.${PAYLOAD}.${SIGNATURE}`)).toThrow(
       "The header of this token is empty.",
     );
@@ -88,7 +88,7 @@ describe("decodeJwt", () => {
 });
 
 describe("isExpired", () => {
-  it("reads exp against the time it is given", () => {
+  it("should read exp against the time it is given", () => {
     const { payload } = decodeJwt(TOKEN);
 
     expect(isExpired(payload, EXPIRES_AT - 1)).toBe(false);
@@ -96,13 +96,13 @@ describe("isExpired", () => {
     expect(isExpired(payload, EXPIRES_AT + 86_400_000)).toBe(true);
   });
 
-  it("is false for a token that never expires", () => {
+  it("should be false for a token that never expires", () => {
     expect(isExpired({ sub: "abc" }, EXPIRES_AT)).toBe(false);
   });
 });
 
 describe("tokenValidity", () => {
-  it("separates valid, expired, early and unknown", () => {
+  it("should separate valid, expired, early and unknown", () => {
     expect(tokenValidity({ exp: 1516242622 }, ISSUED_AT)).toBe("valid");
     expect(tokenValidity({ exp: 1516242622 }, EXPIRES_AT + 1000)).toBe(
       "expired",
@@ -113,7 +113,7 @@ describe("tokenValidity", () => {
 });
 
 describe("describeClaims", () => {
-  it("names the claims and says how long is left", () => {
+  it("should name the claims and say how long is left", () => {
     const { payload } = decodeJwt(TOKEN);
     const rows = describeClaims(payload, ISSUED_AT);
 
@@ -133,7 +133,7 @@ describe("describeClaims", () => {
     });
   });
 
-  it("marks an expired token as the problem", () => {
+  it("should mark an expired token as the problem", () => {
     const { payload } = decodeJwt(TOKEN);
     const expiry = describeClaims(payload, EXPIRES_AT + 7_200_000).find(
       (row) => row.claim === "exp",
@@ -143,7 +143,7 @@ describe("describeClaims", () => {
     expect(expiry?.problem).toBe(true);
   });
 
-  it("marks a token that is not valid yet", () => {
+  it("should mark a token that is not valid yet", () => {
     const rows = describeClaims({ nbf: 1516242622 }, ISSUED_AT);
 
     expect(rows).toEqual([
@@ -157,17 +157,17 @@ describe("describeClaims", () => {
     ]);
   });
 
-  it("joins a list of audiences", () => {
+  it("should join a list of audiences", () => {
     const rows = describeClaims({ aud: ["one", "two"] }, ISSUED_AT);
 
     expect(rows[0].value).toBe("one, two");
   });
 
-  it("returns nothing for a payload with none of the known claims", () => {
+  it("should return nothing for a payload with none of the known claims", () => {
     expect(describeClaims({ custom: true }, ISSUED_AT)).toEqual([]);
   });
 
-  it("says so when a time claim is not a number", () => {
+  it("should say so when a time claim is not a number", () => {
     const rows = describeClaims({ exp: "soon" }, ISSUED_AT);
 
     expect(rows[0].problem).toBe(true);

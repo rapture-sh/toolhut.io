@@ -28,19 +28,19 @@ const pdfMerge: Tool = {
 const catalogue = [base64, pdfMerge];
 
 describe("filterTools", () => {
-  it("returns everything when nothing is filtered", () => {
+  it("should return everything when nothing is filtered", () => {
     expect(filterTools(catalogue, { query: "", tag: "all" })).toEqual(
       catalogue,
     );
   });
 
-  it("matches a tag a tool carries beyond its first one", () => {
+  it("should match a tag a tool carries beyond its first one", () => {
     expect(filterTools(catalogue, { query: "", tag: "text" })).toEqual([
       base64,
     ]);
   });
 
-  it("searches the name, the description and the tags", () => {
+  it("should search the name, the description and the tags", () => {
     expect(
       filterTools(catalogue, { query: "join several", tag: "all" }),
     ).toEqual([pdfMerge]);
@@ -52,7 +52,7 @@ describe("filterTools", () => {
     ]);
   });
 
-  it("ignores surrounding whitespace in the query", () => {
+  it("should ignore surrounding whitespace in the query", () => {
     expect(filterTools(catalogue, { query: "   ", tag: "all" })).toEqual(
       catalogue,
     );
@@ -61,25 +61,25 @@ describe("filterTools", () => {
     ]);
   });
 
-  it("combines the tag and the query", () => {
+  it("should combine the tag and the query", () => {
     expect(filterTools(catalogue, { query: "merge", tag: "dev" })).toEqual([]);
   });
 });
 
 describe("rankTool", () => {
-  it("puts a name that starts with the words first", () => {
+  it("should put a name that starts with the words first", () => {
     expect(rankTool(base64, "base")).toBeLessThan(
       rankTool(base64, "encode") ?? Number.POSITIVE_INFINITY,
     );
   });
 
-  it("ranks a tag match below anything the words actually say", () => {
+  it("should rank a tag match below anything the words actually say", () => {
     expect(rankTool(base64, "dev")).toBeGreaterThan(
       rankTool(base64, "base64") ?? 0,
     );
   });
 
-  it("returns nothing for a tool the words do not reach", () => {
+  it("should return nothing for a tool the words do not reach", () => {
     expect(rankTool(base64, "sausage")).toBeNull();
   });
 });
@@ -105,7 +105,7 @@ describe("searchTools", () => {
     tags: ["color", "image"],
   };
 
-  it("offers the tool named after the words before one merely tagged with them", () => {
+  it("should offer the tool named after the words before one merely tagged with them", () => {
     expect(
       searchTools([colorConverter, imageConverter], "image").map(
         (tool) => tool.slug,
@@ -113,7 +113,7 @@ describe("searchTools", () => {
     ).toEqual(["image-converter", "color-converter"]);
   });
 
-  it("settles a tie alphabetically", () => {
+  it("should settle a tie alphabetically", () => {
     const first: Tool = { ...imageConverter, slug: "a", name: "Image alpha" };
     const second: Tool = { ...imageConverter, slug: "b", name: "Image beta" };
 
@@ -122,7 +122,7 @@ describe("searchTools", () => {
     ).toEqual(["Image alpha", "Image beta"]);
   });
 
-  it("gives everything back when nothing was typed", () => {
+  it("should give everything back when nothing was typed", () => {
     expect(searchTools([base64, pdfMerge], "  ")).toEqual([base64, pdfMerge]);
   });
 });

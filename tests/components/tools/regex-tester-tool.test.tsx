@@ -4,7 +4,7 @@ import { describe, expect, it } from "vitest";
 import { RegexTesterTool } from "~/components/tools/regex-tester-tool";
 
 describe("<RegexTesterTool />", () => {
-  it("counts the matches of the pattern in the text", async () => {
+  it("should count the matches of the pattern in the text", async () => {
     const user = userEvent.setup();
     render(<RegexTesterTool />);
 
@@ -19,7 +19,7 @@ describe("<RegexTesterTool />", () => {
     expect(screen.getByText("at 4")).toBeInTheDocument();
   });
 
-  it("explains a pattern the engine cannot compile", async () => {
+  it("should explain a pattern the engine cannot compile", async () => {
     const user = userEvent.setup();
     render(<RegexTesterTool />);
 

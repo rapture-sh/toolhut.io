@@ -4,7 +4,7 @@ import { describe, expect, it } from "vitest";
 import { TimestampConverterTool } from "~/components/tools/timestamp-converter-tool";
 
 describe("<TimestampConverterTool />", () => {
-  it("turns a timestamp in seconds into a date", async () => {
+  it("should turn a timestamp in seconds into a date", async () => {
     const user = userEvent.setup();
     render(<TimestampConverterTool />);
 

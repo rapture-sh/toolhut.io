@@ -29,13 +29,13 @@ function anchor(ramp: Shade[], input: Color): Shade {
 }
 
 describe("shadeRamp", () => {
-  it("gives the eleven theme steps in order", () => {
+  it("should give the eleven theme steps in order", () => {
     expect(shadeRamp(parseColor("#3b82f6")).map((shade) => shade.step)).toEqual(
       STEPS,
     );
   });
 
-  it("gets darker at every step", () => {
+  it("should get darker at every step", () => {
     const ramp = shadeRamp(parseColor("#f43f5e"));
 
     for (let index = 1; index < ramp.length; index += 1) {
@@ -48,7 +48,7 @@ describe("shadeRamp", () => {
     }
   });
 
-  it("keeps the hue of the colour it was given", () => {
+  it("should keep the hue of the colour it was given", () => {
     const input = parseColor("#3b82f6");
     const hue = toOklch(input).h ?? 0;
 
@@ -57,7 +57,7 @@ describe("shadeRamp", () => {
     }
   });
 
-  it("leaves the input recognisable in the middle of its own ramp", () => {
+  it("should leave the input recognisable in the middle of its own ramp", () => {
     for (const value of ["#3b82f6", "#f43f5e", "#15785c"]) {
       const input = parseColor(value);
       const base = toOklch(input);
@@ -69,7 +69,7 @@ describe("shadeRamp", () => {
     }
   });
 
-  it("builds a grey ramp from a grey, with no colour creeping in", () => {
+  it("should build a grey ramp from a grey, with no colour creeping in", () => {
     for (const shade of shadeRamp(parseColor("#808080"))) {
       const [, red, green, blue] = /^#(..)(..)(..)$/.exec(hex(shade)) ?? [];
 
@@ -78,7 +78,7 @@ describe("shadeRamp", () => {
     }
   });
 
-  it("stays inside sRGB even for a colour a screen cannot show", () => {
+  it("should stay inside sRGB even for a colour a screen cannot show", () => {
     for (const shade of shadeRamp(parseColor("oklch(70% 0.4 30)"))) {
       for (const channel of [shade.color.r, shade.color.g, shade.color.b]) {
         expect(channel).toBeGreaterThanOrEqual(0);
@@ -87,7 +87,7 @@ describe("shadeRamp", () => {
     }
   });
 
-  it("works at the ends of the lightness range", () => {
+  it("should work at the ends of the lightness range", () => {
     for (const value of ["#ffffff", "#000000"]) {
       const ramp = shadeRamp(parseColor(value));
 
@@ -102,7 +102,7 @@ describe("shadeRamp", () => {
 describe("rampAsCss", () => {
   const ramp = shadeRamp(parseColor("#3b82f6"));
 
-  it("writes one custom property per step inside :root", () => {
+  it("should write one custom property per step inside :root", () => {
     const css = rampAsCss(ramp);
 
     expect(css.startsWith(":root {\n")).toBe(true);
@@ -112,24 +112,24 @@ describe("rampAsCss", () => {
     expect(css.match(/--color-/g)).toHaveLength(STEPS.length);
   });
 
-  it("takes a prefix and tidies it into a usable name", () => {
+  it("should take a prefix and tidy it into a usable name", () => {
     expect(rampAsCss(ramp, { prefix: " Brand Blue " })).toContain(
       "--brand-blue-500:",
     );
   });
 
-  it("writes the values in the format it is asked for", () => {
+  it("should write the values in the format it is asked for", () => {
     expect(rampAsCss(ramp, { format: "rgb" })).toContain(
       `--color-500: ${formatColor(ramp[5].color, "rgb")};`,
     );
   });
 
-  it("rejects a prefix with nothing usable in it", () => {
+  it("should reject a prefix with nothing usable in it", () => {
     expect(() => rampAsCss(ramp, { prefix: "" })).toThrow(ShadePrefixError);
     expect(() => rampAsCss(ramp, { prefix: "---" })).toThrow(ShadePrefixError);
   });
 
-  it("writes an empty block for an empty ramp", () => {
+  it("should write an empty block for an empty ramp", () => {
     expect(rampAsCss([])).toBe(":root {\n\n}\n");
   });
 });

@@ -4,7 +4,7 @@ import { describe, expect, it } from "vitest";
 import { QrCodeTool } from "~/components/tools/qr-code-tool";
 
 describe("<QrCodeTool />", () => {
-  it("encodes a link the user types", async () => {
+  it("should encode a link the user types", async () => {
     const user = userEvent.setup();
     render(<QrCodeTool />);
 

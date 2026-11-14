@@ -7,7 +7,7 @@ const CHROME_ON_WINDOWS =
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36";
 
 describe("<UserAgentParserTool />", () => {
-  it("breaks a pasted string into rows", async () => {
+  it("should break a pasted string into rows", async () => {
     const user = userEvent.setup();
     render(<UserAgentParserTool />);
 

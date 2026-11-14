@@ -17,13 +17,13 @@ describe("hashText", () => {
     );
   });
 
-  it("hashes the empty string rather than refusing it", async () => {
+  it("should hash the empty string rather than refusing it", async () => {
     await expect(hashText("", "SHA-256", subtle)).resolves.toBe(
       "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     );
   });
 
-  it("hashes bytes, not code units, so Unicode is stable", async () => {
+  it("should hash bytes, not code units, so Unicode is stable", async () => {
     const text = "héllo 👋";
     const bytes = new TextEncoder().encode(text);
 
@@ -32,7 +32,7 @@ describe("hashText", () => {
     );
   });
 
-  it("gives each algorithm its own digest length", async () => {
+  it("should give each algorithm its own digest length", async () => {
     const lengths = await Promise.all(
       (["SHA-1", "SHA-256", "SHA-384", "SHA-512"] as const).map(
         async (algorithm) => (await hashText("abc", algorithm, subtle)).length,

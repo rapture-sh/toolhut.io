@@ -201,6 +201,18 @@ should change, rather than overriding the same thing at twenty call sites.
 - Interactive components get one or two Testing Library tests for the real user path.
 - Hooks get tests through `renderHook`.
 - Query by role, label or text, not by class name or test id.
+- **Every test name starts with `should`**, reads as a sentence, and says the case it
+  covers. Add `when` where the case needs saying.
+
+  ```ts
+  describe("decodeBase64", () => {
+    it("should reject input that is not Base64", () => {});
+    it("should return an empty string when the input is only whitespace", () => {});
+  });
+  ```
+
+  `describe` names the thing under test, so a function, a component or a hook, and
+  carries no `should`.
 
 Tests have to earn their place. A test is worth keeping only if it can fail for a real
 reason:

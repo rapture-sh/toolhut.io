@@ -4,7 +4,7 @@ import { describe, expect, it } from "vitest";
 import { PasswordGeneratorTool } from "~/components/tools/password-generator-tool";
 
 describe("<PasswordGeneratorTool />", () => {
-  it("shows a password and narrows it to the sets left on", async () => {
+  it("should show a password and narrow it to the sets left on", async () => {
     const user = userEvent.setup();
     render(<PasswordGeneratorTool />);
 

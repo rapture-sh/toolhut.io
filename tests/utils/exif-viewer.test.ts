@@ -62,7 +62,7 @@ function rowValue(
 }
 
 describe("summariseTags", () => {
-  it("groups a photo in a fixed order", () => {
+  it("should group a photo in a fixed order", () => {
     expect(summariseTags(photoWithGps).map((group) => group.title)).toEqual([
       "Camera",
       "Lens",
@@ -73,7 +73,7 @@ describe("summariseTags", () => {
     ]);
   });
 
-  it("reads the camera, the exposure and the date a photo carries", () => {
+  it("should read the camera, the exposure and the date a photo carries", () => {
     const groups = summariseTags(photoWithGps);
 
     expect(rowValue(groups, "Camera", "Model")).toBe("X-T30");
@@ -85,7 +85,7 @@ describe("summariseTags", () => {
     expect(rowValue(groups, "Image", "Bit depth")).toBe("8");
   });
 
-  it("puts the position and the altitude in the location group", () => {
+  it("should put the position and the altitude in the location group", () => {
     const groups = summariseTags(photoWithGps);
 
     expect(rowValue(groups, "Location", "Coordinates")).toBe(
@@ -94,7 +94,7 @@ describe("summariseTags", () => {
     expect(rowValue(groups, "Location", "Altitude")).toBe("413 m");
   });
 
-  it("drops a tag with an empty, binary or runaway value", () => {
+  it("should drop a tag with an empty, binary or runaway value", () => {
     const groups = summariseTags(photoWithGps);
 
     expect(rowValue(groups, "Camera", "Software")).toBeUndefined();
@@ -103,7 +103,7 @@ describe("summariseTags", () => {
     expect(rowValue(groups, "Image", "Description")).toBeUndefined();
   });
 
-  it("describes a PNG that carries nothing but its own header", () => {
+  it("should describe a PNG that carries nothing but its own header", () => {
     const groups = summariseTags(screenshotWithoutExif);
 
     expect(groups.map((group) => group.title)).toEqual(["Image"]);
@@ -112,11 +112,11 @@ describe("summariseTags", () => {
     expect(rowValue(groups, "Image", "Bit depth")).toBe("8");
   });
 
-  it("returns nothing at all for a file with no metadata", () => {
+  it("should return nothing at all for a file with no metadata", () => {
     expect(summariseTags({})).toEqual([]);
   });
 
-  it("refuses a position that is not on earth", () => {
+  it("should refuse a position that is not on earth", () => {
     expect(() =>
       summariseTags({ gps: { Latitude: 120, Longitude: 8 } }),
     ).toThrow(MetadataError);
@@ -124,28 +124,28 @@ describe("summariseTags", () => {
 });
 
 describe("formatCoordinate", () => {
-  it("reads north and east as positive", () => {
+  it("should read north and east as positive", () => {
     expect(formatCoordinate(47.3769, 8.5417)).toBe("47.3769° N, 8.5417° E");
   });
 
-  it("reads south and west as negative", () => {
+  it("should read south and west as negative", () => {
     expect(formatCoordinate(-33.8688, -151.2093)).toBe(
       "33.8688° S, 151.2093° W",
     );
   });
 
-  it("rejects a coordinate outside the range the earth has", () => {
+  it("should reject a coordinate outside the range the earth has", () => {
     expect(() => formatCoordinate(91, 0)).toThrow(MetadataError);
     expect(() => formatCoordinate(0, 181)).toThrow(MetadataError);
   });
 
-  it("rejects a coordinate that is not a number", () => {
+  it("should reject a coordinate that is not a number", () => {
     expect(() => formatCoordinate(Number.NaN, 0)).toThrow(MetadataError);
   });
 });
 
 describe("hasLocation", () => {
-  it("is true only when both halves of a position are there", () => {
+  it("should be true only when both halves of a position are there", () => {
     expect(hasLocation(photoWithGps)).toBe(true);
     expect(hasLocation(screenshotWithoutExif)).toBe(false);
     expect(hasLocation({ gps: { Latitude: 47.3769 } })).toBe(false);
@@ -153,7 +153,7 @@ describe("hasLocation", () => {
 });
 
 describe("cleanCopyName", () => {
-  it("names the stripped copy after the original", () => {
+  it("should name the stripped copy after the original", () => {
     expect(cleanCopyName("DSCF1234.jpg", "jpeg")).toBe(
       "DSCF1234-no-metadata.jpg",
     );

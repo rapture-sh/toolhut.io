@@ -9,14 +9,14 @@ const KEBAB_CASE = /^[a-z0-9]+(-[a-z0-9]+)*$/;
 const routeOf = (slug: string) => join("src", "app", "tools", slug, "page.tsx");
 
 describe("tool registry", () => {
-  it("gives every tool a unique kebab-case slug", () => {
+  it("should give every tool a unique kebab-case slug", () => {
     const slugs = tools.map((tool) => tool.slug);
 
     expect(new Set(slugs).size).toBe(slugs.length);
     expect(slugs.filter((slug) => !KEBAB_CASE.test(slug))).toEqual([]);
   });
 
-  it("carries the metadata the cards render", () => {
+  it("should carry the metadata the cards render", () => {
     for (const tool of tools) {
       expect(tool.name.trim()).not.toBe("");
       expect(tool.description.trim()).not.toBe("");
@@ -29,7 +29,7 @@ describe("tool registry", () => {
     }
   });
 
-  it("backs every ready tool with a route and a component", () => {
+  it("should back every ready tool with a route and a component", () => {
     const missing = readyTools()
       .flatMap((tool) => [
         routeOf(tool.slug),
@@ -40,7 +40,7 @@ describe("tool registry", () => {
     expect(missing).toEqual([]);
   });
 
-  it("keeps planned tools unlinkable, with no route of their own", () => {
+  it("should keep planned tools unlinkable, with no route of their own", () => {
     const built = tools
       .filter((tool) => tool.status === "planned")
       .map((tool) => routeOf(tool.slug))
@@ -54,7 +54,7 @@ describe("page titles", () => {
   /** Search results cut a title at about 60 characters. */
   const LIMIT = 60;
 
-  it("fits every title inside what a search result shows", () => {
+  it("should fit every title inside what a search result shows", () => {
     const tooLong = tools
       .map((tool) => `${tool.name} - ${tool.tagline} - toolhut`)
       .filter((title) => title.length > LIMIT);
@@ -62,7 +62,7 @@ describe("page titles", () => {
     expect(tooLong).toEqual([]);
   });
 
-  it("writes a tagline that adds to the name instead of repeating it", () => {
+  it("should write a tagline that adds to the name instead of repeating it", () => {
     for (const tool of tools) {
       expect(tool.tagline.trim()).not.toBe("");
       expect(tool.tagline.endsWith(".")).toBe(false);
@@ -72,14 +72,14 @@ describe("page titles", () => {
 });
 
 describe("getTool", () => {
-  it("finds a tool by slug and returns undefined for an unknown one", () => {
+  it("should find a tool by slug and return undefined for an unknown one", () => {
     expect(getTool("base64")?.slug).toBe("base64");
     expect(getTool("not-a-tool")).toBeUndefined();
   });
 });
 
 describe("countByTag", () => {
-  it("counts every tool carrying the tag, not just its first one", () => {
+  it("should count every tool carrying the tag, not just its first one", () => {
     const expected = tools.filter((tool) => tool.tags.includes("dev")).length;
 
     expect(countByTag("dev")).toBe(expected);

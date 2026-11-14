@@ -4,7 +4,7 @@ import { describe, expect, it } from "vitest";
 import { JsonFormatterTool } from "~/components/tools/json-formatter-tool";
 
 describe("<JsonFormatterTool />", () => {
-  it("formats pasted JSON with sorted keys when asked", async () => {
+  it("should format pasted JSON with sorted keys when asked", async () => {
     const user = userEvent.setup();
     render(<JsonFormatterTool />);
 
@@ -18,7 +18,7 @@ describe("<JsonFormatterTool />", () => {
     );
   });
 
-  it("says which line and column the mistake is on", async () => {
+  it("should say which line and column the mistake is on", async () => {
     const user = userEvent.setup();
     render(<JsonFormatterTool />);
 

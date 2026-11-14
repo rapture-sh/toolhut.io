@@ -17,7 +17,7 @@ const filling = {
 };
 
 describe("placeLogo", () => {
-  it("fills the space inside the padding at full size", () => {
+  it("should fill the space inside the padding at full size", () => {
     expect(placeLogo(logo, canvas, { ...filling, paddingPercent: 10 })).toEqual(
       {
         x: 20,
@@ -28,13 +28,13 @@ describe("placeLogo", () => {
     );
   });
 
-  it("keeps the proportions of the logo", () => {
+  it("should keep the proportions of the logo", () => {
     const box = placeLogo({ width: 300, height: 100 }, canvas, filling);
 
     expect(box).toEqual({ x: 0, y: 67, width: 200, height: 67 });
   });
 
-  it("shrinks the logo without moving its centre", () => {
+  it("should shrink the logo without moving its centre", () => {
     expect(placeLogo(logo, canvas, { ...filling, sizePercent: 50 })).toEqual({
       x: 50,
       y: 75,
@@ -43,7 +43,7 @@ describe("placeLogo", () => {
     });
   });
 
-  it("puts a smaller logo in the corner the anchor names", () => {
+  it("should put a smaller logo in the corner the anchor names", () => {
     const box = placeLogo(logo, canvas, {
       paddingPercent: 10,
       anchor: "top-left",
@@ -53,7 +53,7 @@ describe("placeLogo", () => {
     expect(box).toEqual({ x: 20, y: 20, width: 80, height: 40 });
   });
 
-  it("measures the far corner from the far padding", () => {
+  it("should measure the far corner from the far padding", () => {
     const box = placeLogo(logo, canvas, {
       paddingPercent: 10,
       anchor: "bottom-right",
@@ -64,7 +64,7 @@ describe("placeLogo", () => {
     expect(box.y + box.height).toBe(180);
   });
 
-  it("has nowhere to move a full size logo that matches the canvas shape", () => {
+  it("should have nowhere to move a full size logo that matches the canvas shape", () => {
     const square = { width: 100, height: 100 };
     const corner = placeLogo(square, canvas, {
       ...filling,
@@ -74,7 +74,7 @@ describe("placeLogo", () => {
     expect(corner).toEqual(placeLogo(square, canvas, filling));
   });
 
-  it("refuses padding that leaves no room", () => {
+  it("should refuse padding that leaves no room", () => {
     expect(() =>
       placeLogo(
         logo,
@@ -84,13 +84,13 @@ describe("placeLogo", () => {
     ).toThrow(LogoPaddingError);
   });
 
-  it("refuses a padding percentage outside the range", () => {
+  it("should refuse a padding percentage outside the range", () => {
     expect(() =>
       placeLogo(logo, canvas, { ...filling, paddingPercent: 60 }),
     ).toThrow(LogoPaddingError);
   });
 
-  it("refuses a logo size outside the range", () => {
+  it("should refuse a logo size outside the range", () => {
     expect(() =>
       placeLogo(logo, canvas, {
         ...filling,
@@ -102,13 +102,13 @@ describe("placeLogo", () => {
     ).toThrow(LogoPaddingError);
   });
 
-  it("refuses a canvas with no size", () => {
+  it("should refuse a canvas with no size", () => {
     expect(() => placeLogo(logo, { width: 0, height: 200 }, filling)).toThrow(
       LogoPaddingError,
     );
   });
 
-  it("never places a logo smaller than a pixel", () => {
+  it("should never place a logo smaller than a pixel", () => {
     const box = placeLogo(
       { width: 1000, height: 1 },
       { width: 10, height: 10 },
@@ -120,13 +120,13 @@ describe("placeLogo", () => {
 });
 
 describe("squareFor", () => {
-  it("takes the longer side of the logo", () => {
+  it("should take the longer side of the logo", () => {
     expect(squareFor(logo)).toBe(100);
   });
 });
 
 describe("paddedName", () => {
-  it("records the canvas size and the format", () => {
+  it("should record the canvas size and the format", () => {
     expect(paddedName("mark.svg", { width: 1024, height: 1024 }, "png")).toBe(
       "mark-1024x1024.png",
     );
@@ -145,15 +145,15 @@ describe("edgeColor", () => {
     return { data, width: size, height: size };
   };
 
-  it("reads the colour the logo was exported on", () => {
+  it("should read the colour the logo was exported on", () => {
     expect(edgeColor(image([18, 52, 86, 255]))).toBe("#123456");
   });
 
-  it("ignores a transparent edge so transparency is kept", () => {
+  it("should ignore a transparent edge so transparency is kept", () => {
     expect(edgeColor(image([255, 255, 255, 0]))).toBeNull();
   });
 
-  it("takes the edge colour, not a colour only in the middle", () => {
+  it("should take the edge colour, not a colour only in the middle", () => {
     const picture = image([255, 255, 255, 255]);
     const middle = (1 * picture.width + 1) * 4;
     picture.data[middle] = 0;

@@ -4,7 +4,7 @@ import { describe, expect, it } from "vitest";
 import { SqlFormatterTool } from "~/components/tools/sql-formatter-tool";
 
 describe("<SqlFormatterTool />", () => {
-  it("formats a typed query and squashes it back to one line", async () => {
+  it("should format a typed query and squash it back to one line", async () => {
     const user = userEvent.setup();
     render(<SqlFormatterTool />);
 

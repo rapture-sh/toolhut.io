@@ -4,7 +4,7 @@ import { describe, expect, it } from "vitest";
 import { ColorShadesTool } from "~/components/tools/color-shades-tool";
 
 describe("<ColorShadesTool />", () => {
-  it("ramps the colour the user enters and writes it as CSS", async () => {
+  it("should ramp the colour the user enters and write it as CSS", async () => {
     const user = userEvent.setup();
     render(<ColorShadesTool />);
     const field = screen.getByLabelText("Colour");

@@ -4,7 +4,7 @@ import { describe, expect, it } from "vitest";
 import { ColorConverterTool } from "~/components/tools/color-converter-tool";
 
 describe("<ColorConverterTool />", () => {
-  it("converts what the user types and keeps the last good colour", async () => {
+  it("should convert what the user types and keep the last good colour", async () => {
     const user = userEvent.setup();
     render(<ColorConverterTool />);
     const field = screen.getByLabelText("Colour");
