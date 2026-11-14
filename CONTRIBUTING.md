@@ -62,10 +62,9 @@ Run these before opening a PR, and make sure they pass:
 pnpm lint
 pnpm typecheck
 pnpm test
-pnpm build
 ```
 
-`pnpm lint:fix` fixes most style complaints for you. CI runs the same four.
+`pnpm lint:fix` fixes most style complaints for you. CI runs those three in parallel.
 
 ## Commits
 
