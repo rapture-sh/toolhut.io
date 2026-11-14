@@ -1,7 +1,13 @@
 "use client";
 
 import { Check, Copy } from "lucide-react";
-import { createContext, type ReactNode, useContext, useId } from "react";
+import {
+  type CSSProperties,
+  createContext,
+  type ReactNode,
+  useContext,
+  useId,
+} from "react";
 import { DropZone } from "~/components/tools/drop-zone";
 import { Button } from "~/components/ui/button";
 import { useCopyToClipboard } from "~/hooks/use-copy-to-clipboard";
@@ -246,6 +252,7 @@ export function ToolSlider({
   className,
 }: ToolSliderProps) {
   const id = useId();
+  const fill = max > min ? ((value - min) / (max - min)) * 100 : 0;
 
   return (
     <div className={cn("flex min-w-48 flex-1 flex-col gap-2", className)}>
@@ -265,7 +272,8 @@ export function ToolSlider({
         step={step}
         value={value}
         onChange={(event) => onChange(Number(event.target.value))}
-        className="h-1.5 w-full cursor-pointer accent-primary"
+        style={{ "--slider-fill": `${fill}%` } as CSSProperties}
+        className="tool-slider"
       />
     </div>
   );

@@ -274,6 +274,58 @@ html {
 }
 
 /* The default scrollbar is the one thing on the page we do not style. */
+/* A slider with no browser chrome: a pill track that fills as it goes. */
+.tool-slider {
+  appearance: none;
+  width: 100%;
+  height: 1.25rem;
+  background: transparent;
+  cursor: pointer;
+}
+.tool-slider::-webkit-slider-runnable-track {
+  height: 0.375rem;
+  border-radius: 999px;
+  background: linear-gradient(
+    to right,
+    var(--primary) var(--slider-fill, 0%),
+    var(--muted) var(--slider-fill, 0%)
+  );
+}
+.tool-slider::-webkit-slider-thumb {
+  appearance: none;
+  margin-top: -0.3125rem;
+  height: 1rem;
+  width: 1rem;
+  border-radius: 999px;
+  background: var(--primary);
+  transition: transform 150ms ease;
+}
+.tool-slider:hover::-webkit-slider-thumb,
+.tool-slider:active::-webkit-slider-thumb {
+  transform: scale(1.15);
+}
+.tool-slider:focus-visible::-webkit-slider-thumb {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+.tool-slider::-moz-range-track {
+  height: 0.375rem;
+  border-radius: 999px;
+  background: var(--muted);
+}
+.tool-slider::-moz-range-progress {
+  height: 0.375rem;
+  border-radius: 999px;
+  background: var(--primary);
+}
+.tool-slider::-moz-range-thumb {
+  height: 1rem;
+  width: 1rem;
+  border: none;
+  border-radius: 999px;
+  background: var(--primary);
+}
+
 .scroll-slim {
   scrollbar-width: thin;
   scrollbar-color: var(--border) transparent;
