@@ -128,6 +128,9 @@ the same site.
   is held over it.
 - `components/tools/image-input.tsx`: `ImageInput`, how every image tool takes its
   picture, with `useImageFile` for the decoding.
+- `components/tools/code-view.tsx`: `CodeView`, output that is code. Give it the
+  language and it colours the parts, so JSON reads the same in every tool. A new
+  language is a few rules in `utils/highlight.ts`.
 
 Two rules come with them:
 
