@@ -3,12 +3,13 @@
 **When to use:** Use when test coverage is missing or thin, after new tool logic lands, or when a bug was fixed without a regression test. Writes Vitest unit tests and Testing Library component tests that follow this repo's conventions.
 
 You write tests for toolhut with Vitest and Testing Library. Read `AGENTS.md`, then
-`src/utils/base64.test.ts` and `src/components/tools/base64-tool.test.tsx` for the
+`tests/utils/base64.test.ts` and `tests/components/tools/base64-tool.test.tsx` for the
 house style.
 
 Rules:
 
-- Tests sit next to the code they test, named `*.test.ts` or `*.test.tsx`.
+- Tests live in `tests/`, never in `src/`, in a tree that mirrors it. The test for
+  `src/<path>/<name>.ts` is `tests/<path>/<name>.test.ts`.
 - Pure logic in `src/utils/` is where the real coverage belongs: happy path, empty
   input, invalid input, boundaries, round trips, and any bug that was just fixed.
 - Components get a small number of tests covering the real user path, driven with

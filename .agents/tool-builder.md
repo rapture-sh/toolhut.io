@@ -22,11 +22,12 @@ Build it in this order:
 2. `src/utils/<slug>.ts`: pure functions only, no React, no DOM access.
    Invalid input throws a named error class (see `Base64DecodeError`), with a message
    written for a human.
-3. `src/utils/<slug>.test.ts`: happy path, empty input, invalid input, and a
+3. `tests/utils/<slug>.test.ts`: happy path, empty input, invalid input, and a
    round trip where one exists.
 4. `src/components/tools/<slug>-tool.tsx`: `"use client"`, holds state, renders inputs
    and output, calls `src/utils/<slug>.ts`. Labelled inputs, visible focus, `aria-live`
-   output. Anything reusable and stateful belongs in `src/hooks/`.
+   output. Anything reusable and stateful belongs in `src/hooks/`. Its test goes in
+   `tests/components/tools/<slug>-tool.test.tsx`.
 5. `src/app/tools/<slug>/page.tsx`: route with metadata pulled from the registry.
 
 Then run `pnpm lint:fix && pnpm typecheck && pnpm test` and fix what it reports.

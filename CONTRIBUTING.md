@@ -41,8 +41,9 @@ The base64 tool is the reference implementation, so copy its shape.
 
 1. Add the tool to `src/lib/tools/registry.ts`.
 2. `src/utils/<slug>.ts`: the real work, as pure functions. No React, no DOM.
-3. `src/utils/<slug>.test.ts`: happy path, empty input, invalid input.
+3. `tests/utils/<slug>.test.ts`: happy path, empty input, invalid input.
 4. `src/components/tools/<slug>-tool.tsx`: `"use client"` component, state and UI only.
+   Its test goes in `tests/components/tools/<slug>-tool.test.tsx`.
 5. `src/app/tools/<slug>/page.tsx`: the route.
 
 Full detail is in [AGENTS.md](AGENTS.md#adding-a-tool).

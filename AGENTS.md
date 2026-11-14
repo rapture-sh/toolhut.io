@@ -68,7 +68,13 @@ src/
     tools/types.ts            # Tool metadata type and categories
   utils/
     <slug>.ts                 # the pure logic of one tool
-  test/setup.ts               # Vitest setup
+
+tests/                        # mirrors src/, one test file per module
+  setup.ts                    # Vitest setup
+  components/tools/<slug>-tool.test.tsx
+  hooks/<hook>.test.ts
+  lib/tools/registry.test.ts
+  utils/<slug>.test.ts
 ```
 
 Where things go:
@@ -79,6 +85,10 @@ Where things go:
 - `lib/` is app-level modules. Right now that is the tool registry and its types.
 - `components/` is UI. A tool's own component goes in `components/tools/`.
 - `app/` is routes and nothing else. Keep route files thin.
+- `components/sections/` is the tail every page carries: why local, how it works, the
+  FAQ and the contribute block. They are rendered by the root layout through
+  `SiteSections`, so a route only writes what is above them.
+- `tests/` sits outside `src/` and mirrors it. See Testing below.
 
 ## Adding a tool
 
@@ -86,7 +96,8 @@ Where things go:
    description, a category from `types.ts`).
 2. Create `src/utils/<slug>.ts`: the actual work, as pure functions that take input and
    return output or throw a typed error. No React in this file.
-3. Write `src/utils/<slug>.test.ts` covering the happy path, empty input, and bad input.
+3. Write `tests/utils/<slug>.test.ts` covering the happy path, empty input, and bad
+   input.
 4. Create `src/components/tools/<slug>-tool.tsx`: a `"use client"` component holding the
    state and the UI. Keep it dumb, the logic lives in `src/utils/<slug>.ts`.
 5. Create `src/app/tools/<slug>/page.tsx`: the route, with metadata from the registry.
@@ -98,6 +109,9 @@ The base64 tool is the reference implementation, so copy its shape:
 ## Code style
 
 - Biome decides formatting; run `pnpm lint:fix` rather than arguing with it.
+- **No blank lines inside JSX.** Markup runs unbroken from the opening tag to the
+  closing one. Blank lines are fine between imports, constants and statements, never
+  between elements in a return.
 - Named exports (`export function Thing()`), not default exports, outside of
   `app/` route files where Next requires a default.
 - Import with the `~/` alias (`~/lib/tools/registry`), never long relative paths.
@@ -107,13 +121,65 @@ The base64 tool is the reference implementation, so copy its shape:
 - Accessibility is not optional: label every input, keep focus states visible, make
   results readable by screen readers (`aria-live` for live output).
 
+## Colour and theming
+
+All colour lives in `src/app/globals.css` as CSS variables: day values on `:root`,
+night values on `.dark`. A component never names a colour that is not a token, so no
+hex in a `className`, and no raw Tailwind palette class like `bg-blue-500`.
+
+- **Brand**: lavender `--lavender` is the mark and the primary action, with peach
+  `--peach` and mint `--mint` as the counterweights.
+- **Surfaces**: the page is `bg-background`, anything raised is `bg-card`. One step, not
+  three. Separation comes from that step and from space, never from a border on
+  everything.
+- **Tags**: one hue per tag, as `--tag-<name>` in both themes. `TAG_STYLES` in
+  `src/lib/tools/tag-styles.ts` turns it into `text-tag-<name> bg-tag-<name>/15`. Adding
+  a tag means adding both tokens and both map entries.
+- **Tags read as `#name`**, drawn by `TagChip`, so they echo the mark. Do not render a
+  tag as bare text or with a dot.
+- **No gradients, no glows, no decorative shadows.** Light mode may use a soft shadow to
+  lift a surface; that is the limit.
+- Buttons and badges are pills already, set in `ui/button.tsx` and `ui/badge.tsx`. Do
+  not re-round them at the call site.
+
+shadcn components live in `src/components/ui/`. Edit them in place when the whole system
+should change, rather than overriding the same thing at twenty call sites.
+
+## Comments
+
+- Code should read on its own. Do not write a comment that repeats what the next line
+  already says, and do not use banner comments to label sections.
+- Use TSDoc (`/** ... */`) only where the code cannot say it itself: a contract the
+  types do not capture, an invariant the caller has to keep, a unit, the error a
+  function throws, or the reason something is done an unusual way. Explain why, not
+  what.
+- Nothing commented out, no `TODO` without a linked issue, no changelog inside a file.
+- A stale comment is worse than no comment. If the code moves on, delete the comment.
+
 ## Testing
 
+- Tests live in `tests/`, outside `src/`, in a tree that mirrors it. The tests for
+  `src/utils/base64.ts` are in `tests/utils/base64.test.ts`, and the file name is always
+  the source file name plus `.test`.
+- Import the code under test through the `~/` alias, the same way the app does.
 - Pure logic in `src/utils/` must have unit tests. That is where coverage counts.
 - Interactive components get one or two Testing Library tests for the real user path.
 - Hooks get tests through `renderHook`.
-- Tests sit next to what they test and are named `*.test.ts(x)`.
 - Query by role, label or text, not by class name or test id.
+
+Tests have to earn their place. A test is worth keeping only if it can fail for a real
+reason:
+
+- Test behaviour, not structure: what a caller or a user actually gets back. Cover the
+  happy path, empty input, invalid input, boundaries, round trips, and any bug that was
+  just fixed.
+- No test that restates the implementation, asserts a mock was called with the argument
+  you just handed it, or snapshots a whole component.
+- Do not test the framework, the browser or a dependency. Assume they work.
+- Avoid arbitrary thresholds (`expect(name.length).toBeGreaterThan(2)`). Assert the
+  invariant you actually care about.
+- A few tests that would catch a real break beat many that pad the count.
+- Test files follow everything else in this file, the comment rules included.
 
 ## Agent playbooks
 

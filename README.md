@@ -63,12 +63,14 @@ src/
   components/          # shared UI, with components/tools/ for each tool's UI
   hooks/               # reusable client hooks
   lib/tools/           # the tool registry and its types
-  utils/               # pure logic, one module per tool, with its tests
+  utils/               # pure logic, one module per tool
+tests/                 # mirrors src/, one test file per module
 ```
 
-Each tool keeps its real work in a pure module under `src/utils/` with unit tests, and
-its UI in a thin client component under `src/components/tools/`. The base64 tool is the
-reference implementation.
+Each tool keeps its real work in a pure module under `src/utils/` and its UI in a thin
+client component under `src/components/tools/`. Tests live outside `src/` in a `tests/`
+tree that mirrors it, so `src/utils/base64.ts` is tested by `tests/utils/base64.test.ts`.
+The base64 tool is the reference implementation.
 
 ## Contributing
 
