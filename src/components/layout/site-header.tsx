@@ -1,8 +1,8 @@
-import { Search } from "lucide-react";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { BrandMark } from "~/components/brand-mark";
 import { GithubIcon } from "~/components/icons/github";
+import { SearchButton } from "~/components/layout/search-button";
 import { ThemeToggle } from "~/components/theme-toggle";
 import { Button } from "~/components/ui/button";
 import {
@@ -40,11 +40,7 @@ export function SiteHeader() {
         <TooltipProvider delayDuration={200}>
           <div className="flex items-center gap-1">
             <Hint label="Search tools">
-              <Button asChild variant="ghost" size="icon">
-                <Link href="/#tools" aria-label="Search tools">
-                  <Search strokeWidth={1.8} />
-                </Link>
-              </Button>
+              <SearchButton />
             </Hint>
             <ThemeToggle />
             <Hint label="Source on GitHub">

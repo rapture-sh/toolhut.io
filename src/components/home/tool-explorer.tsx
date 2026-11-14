@@ -1,10 +1,11 @@
 "use client";
 
 import { ArrowDown, Search } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { ToolCard } from "~/components/tools/tool-card";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
+import { SEARCH_FIELD_ID, shouldFocusOnLoad } from "~/lib/search-field";
 import { allTools } from "~/lib/tools/registry";
 import { TAG_SOLID, TAG_STYLES } from "~/lib/tools/tag-styles";
 import { TOOL_TAGS } from "~/lib/tools/types";
@@ -21,6 +22,13 @@ export function ToolExplorer() {
   const [query, setQuery] = useState("");
   const [tag, setTag] = useState<TagFilter>("all");
   const [expanded, setExpanded] = useState(false);
+  const field = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (shouldFocusOnLoad()) {
+      field.current?.focus({ preventScroll: true });
+    }
+  }, []);
 
   const matches = useMemo(
     () => filterTools(allTools(), { query, tag }),
@@ -38,7 +46,7 @@ export function ToolExplorer() {
     <>
       <div className="mx-auto mt-14 max-w-2xl">
         <div className="relative">
-          <label htmlFor="tool-search" className="sr-only">
+          <label htmlFor={SEARCH_FIELD_ID} className="sr-only">
             Search tools
           </label>
           <Search
@@ -47,7 +55,8 @@ export function ToolExplorer() {
             aria-hidden="true"
           />
           <Input
-            id="tool-search"
+            ref={field}
+            id={SEARCH_FIELD_ID}
             type="search"
             value={query}
             onChange={(event) => {
