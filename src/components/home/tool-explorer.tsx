@@ -141,7 +141,7 @@ export function ToolExplorer() {
             />
           </div>
           {open && (
-            <div className="absolute inset-x-0 top-[calc(100%+0.5rem)] z-40 overflow-hidden rounded-3xl bg-card text-left">
+            <div className="absolute inset-x-0 top-[calc(100%+0.5rem)] z-40 overflow-hidden rounded-3xl bg-popover text-left shadow-2xl ring-1 ring-border">
               <SearchResults
                 id={listId}
                 heading={search.heading}

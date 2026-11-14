@@ -49,7 +49,7 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
         <Dialog.Overlay className="fixed inset-0 z-50 bg-background/70 backdrop-blur-sm" />
         <Dialog.Content
           aria-describedby={undefined}
-          className="anim-tooltip fixed left-1/2 top-[14vh] z-50 w-[min(34rem,calc(100vw-2rem))] -translate-x-1/2 overflow-hidden rounded-3xl bg-card outline-none"
+          className="anim-tooltip fixed left-1/2 top-[14vh] z-50 w-[min(34rem,calc(100vw-2rem))] -translate-x-1/2 overflow-hidden rounded-3xl bg-popover shadow-2xl ring-1 ring-border outline-none"
         >
           <VisuallyHidden.Root asChild>
             <Dialog.Title>Search tools</Dialog.Title>

@@ -68,7 +68,7 @@ export function SearchResults({
                   onClick={() => onPick(tool)}
                   className={cn(
                     "flex items-center gap-3 rounded-2xl px-3 py-2.5 transition-colors",
-                    current ? "bg-accent" : "hover:bg-accent/60",
+                    current ? "bg-primary/15" : "hover:bg-primary/10",
                   )}
                 >
                   <span
