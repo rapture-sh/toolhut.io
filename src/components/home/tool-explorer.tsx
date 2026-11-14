@@ -11,8 +11,9 @@ import { TOOL_TAGS } from "~/lib/tools/types";
 import { cn } from "~/lib/utils";
 import { filterTools, type TagFilter } from "~/utils/search";
 
-/** Three rows of three. Everything past this is behind the fade. */
+/** Three rows of three on a laptop, one short list on a phone. */
 const PREVIEW = 9;
+const MOBILE_PREVIEW = 3;
 const FILTERS: TagFilter[] = ["all", ...TOOL_TAGS];
 const FADE = "linear-gradient(to bottom, #000 72%, transparent 100%)";
 
@@ -28,6 +29,10 @@ export function ToolExplorer() {
 
   const visible = expanded ? matches : matches.slice(0, PREVIEW);
   const hidden = matches.length - visible.length;
+  // A phone shows three before the fade, a laptop shows three rows of three.
+  const hiddenOnPhone = expanded
+    ? 0
+    : Math.max(0, matches.length - MOBILE_PREVIEW);
 
   return (
     <>
@@ -99,15 +104,26 @@ export function ToolExplorer() {
                 : undefined
             }
           >
-            {visible.map((tool) => (
-              <li key={tool.slug} className="flex">
+            {visible.map((tool, index) => (
+              <li
+                key={tool.slug}
+                className={cn(
+                  "flex",
+                  !expanded && index >= MOBILE_PREVIEW && "hidden sm:flex",
+                )}
+              >
                 <ToolCard tool={tool} />
               </li>
             ))}
           </ul>
         )}
-        {hidden > 0 && (
-          <div className="-mt-2 flex justify-center">
+        {hiddenOnPhone > 0 && (
+          <div
+            className={cn(
+              "-mt-2 flex justify-center",
+              hidden === 0 && "sm:hidden",
+            )}
+          >
             <Button type="button" size="lg" onClick={() => setExpanded(true)}>
               Show all {matches.length} tools
               <ArrowDown className="transition-transform duration-200 group-hover:translate-y-0.5" />
