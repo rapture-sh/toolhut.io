@@ -10,6 +10,7 @@ import {
   ToolPanes,
   ToolTextarea,
 } from "~/components/tools/tool-io";
+import { Checkbox } from "~/components/ui/checkbox";
 import { decodeEntities, encodeEntities } from "~/utils/html-entities";
 
 type Mode = "encode" | "decode";
@@ -42,12 +43,14 @@ export function HtmlEntitiesTool() {
           onChange={setMode}
         />
         {mode === "encode" && (
-          <label className="flex items-center gap-2 text-sm text-muted-foreground">
-            <input
-              type="checkbox"
+          <label
+            htmlFor="entities-non-ascii"
+            className="flex cursor-pointer items-center gap-2.5 text-sm text-muted-foreground"
+          >
+            <Checkbox
+              id="entities-non-ascii"
               checked={nonAscii}
-              onChange={(event) => setNonAscii(event.target.checked)}
-              className="size-4 accent-primary"
+              onCheckedChange={(checked) => setNonAscii(checked === true)}
             />
             Escape accents and symbols too
           </label>

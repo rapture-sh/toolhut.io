@@ -63,7 +63,7 @@ export function RandomSecretTool() {
         </Button>
       </ToolOptions>
       <ToolField label="Secret" action={<CopyButton value={secret} />}>
-        <ToolOutput value={secret} className="min-h-24" />
+        <ToolOutput value={secret} className="h-24" />
       </ToolField>
       <p className="text-sm leading-relaxed text-muted-foreground">
         Generated with the browser's own random source. Nothing is sent

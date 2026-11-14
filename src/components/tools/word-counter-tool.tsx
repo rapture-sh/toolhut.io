@@ -41,7 +41,7 @@ export function WordCounterTool() {
           value={input}
           onChange={setInput}
           placeholder="Paste or type here"
-          rows={14}
+          className="h-96"
         />
       </ToolField>
     </div>

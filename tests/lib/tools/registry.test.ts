@@ -50,6 +50,27 @@ describe("tool registry", () => {
   });
 });
 
+describe("page titles", () => {
+  /** Search results cut a title at about 60 characters. */
+  const LIMIT = 60;
+
+  it("fits every title inside what a search result shows", () => {
+    const tooLong = tools
+      .map((tool) => `${tool.name} - ${tool.tagline} - toolhut`)
+      .filter((title) => title.length > LIMIT);
+
+    expect(tooLong).toEqual([]);
+  });
+
+  it("writes a tagline that adds to the name instead of repeating it", () => {
+    for (const tool of tools) {
+      expect(tool.tagline.trim()).not.toBe("");
+      expect(tool.tagline.endsWith(".")).toBe(false);
+      expect(tool.tagline.toLowerCase()).not.toBe(tool.name.toLowerCase());
+    }
+  });
+});
+
 describe("getTool", () => {
   it("finds a tool by slug and returns undefined for an unknown one", () => {
     expect(getTool("base64")?.slug).toBe("base64");

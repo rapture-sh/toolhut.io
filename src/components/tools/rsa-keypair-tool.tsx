@@ -56,7 +56,7 @@ export function RsaKeypairTool() {
           <ToolOutput
             value={pair?.publicKey ?? ""}
             placeholder="Generate a pair to see the public key."
-            className="min-h-64 text-xs"
+            className="h-[26rem] text-xs"
           />
         </ToolField>
         <ToolField
@@ -66,7 +66,7 @@ export function RsaKeypairTool() {
           <ToolOutput
             value={pair?.privateKey ?? ""}
             placeholder="Generate a pair to see the private key."
-            className="min-h-64 text-xs"
+            className="h-[26rem] text-xs"
           />
         </ToolField>
       </ToolPanes>

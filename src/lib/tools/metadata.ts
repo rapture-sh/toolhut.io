@@ -17,7 +17,8 @@ export function toolMetadata(slug: string): Metadata {
   const url = `${siteConfig.url}/tools/${tool.slug}`;
 
   return {
-    title: tool.name,
+    // The layout template appends the site name.
+    title: `${tool.name} - ${tool.tagline}`,
     description,
     keywords: tool.keywords,
     alternates: { canonical: `/tools/${tool.slug}` },
@@ -25,7 +26,7 @@ export function toolMetadata(slug: string): Metadata {
       type: "website",
       url,
       siteName: siteConfig.name,
-      title: `${tool.name} - ${siteConfig.name}`,
+      title: `${tool.name} - ${tool.tagline} - ${siteConfig.name}`,
       description,
     },
   };

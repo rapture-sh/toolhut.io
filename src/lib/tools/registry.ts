@@ -39,6 +39,7 @@ export const tools: Tool[] = [
   {
     slug: "base64",
     name: "Base64",
+    tagline: "encode and decode text",
     description: "Encode text to Base64 or decode it back, Unicode included.",
     metaDescription:
       "Free Base64 encoder and decoder that runs in your browser. Paste text or Base64, get the other one back, with full Unicode support and nothing uploaded.",
@@ -55,6 +56,7 @@ export const tools: Tool[] = [
   {
     slug: "lorem-ipsum",
     name: "Lorem ipsum",
+    tagline: "placeholder text generator",
     description: "Generate placeholder text by paragraphs, sentences or words.",
     metaDescription:
       "Free lorem ipsum generator. Pick paragraphs, sentences or words, copy the placeholder text, and keep it all in your browser.",
@@ -71,6 +73,7 @@ export const tools: Tool[] = [
   {
     slug: "word-counter",
     name: "Word counter",
+    tagline: "count words and characters",
     description: "Count words, characters, sentences and reading time.",
     metaDescription:
       "Free word and character counter. Paste your text to count words, characters with and without spaces, sentences, paragraphs and reading time, all in your browser.",
@@ -88,6 +91,7 @@ export const tools: Tool[] = [
   {
     slug: "text-diff",
     name: "Text diff",
+    tagline: "compare two texts",
     description: "Compare two blocks of text line by line.",
     metaDescription:
       "Free text diff tool. Paste two versions to see added, removed and unchanged lines side by side, without uploading either of them.",
@@ -104,6 +108,7 @@ export const tools: Tool[] = [
   {
     slug: "case-converter",
     name: "Case converter",
+    tagline: "change text case",
     description: "camelCase, snake_case, kebab-case and four more, at once.",
     metaDescription:
       "Free case converter. Paste any text and get camelCase, PascalCase, snake_case, kebab-case, CONSTANT_CASE, Title Case and Sentence case side by side, in your browser.",
@@ -121,6 +126,7 @@ export const tools: Tool[] = [
   {
     slug: "slugify",
     name: "Slugify",
+    tagline: "url slug generator",
     description: "Turn a heading into a clean URL slug.",
     metaDescription:
       "Free slug generator. Turn a title into a URL slug with accents folded, punctuation dropped and separators collapsed, all in your browser.",
@@ -137,6 +143,7 @@ export const tools: Tool[] = [
   {
     slug: "url-encoder",
     name: "URL encoder",
+    tagline: "percent encode and decode",
     description: "Percent encode and decode URLs and query strings.",
     metaDescription:
       "Free URL encoder and decoder. Percent encode a value or a whole URL, decode one back, and read any query string as a table, without uploading anything.",
@@ -153,6 +160,7 @@ export const tools: Tool[] = [
   {
     slug: "html-entities",
     name: "HTML entities",
+    tagline: "escape and unescape html",
     description: "Escape text for markup, or read entities back as text.",
     metaDescription:
       "Free HTML entity encoder and decoder. Escape angle brackets, quotes and ampersands for safe markup, or decode named, decimal and hex entities back to text.",
@@ -169,6 +177,7 @@ export const tools: Tool[] = [
   {
     slug: "number-base",
     name: "Number base",
+    tagline: "hex, binary and decimal",
     description: "Convert between binary, octal, decimal and hexadecimal.",
     metaDescription:
       "Free number base converter. Convert between binary, octal, decimal and hexadecimal with arbitrary precision, in your browser.",
@@ -185,6 +194,7 @@ export const tools: Tool[] = [
   {
     slug: "json-formatter",
     name: "JSON formatter",
+    tagline: "format and minify json",
     description: "Pretty print, minify and sort the keys of a JSON document.",
     keywords: ["json formatter", "json beautifier", "json minifier"],
     tags: ["dev", "data"],
@@ -194,6 +204,7 @@ export const tools: Tool[] = [
   {
     slug: "jwt-decoder",
     name: "JWT decoder",
+    tagline: "decode a json web token",
     description: "Read the header and payload of a token without sending it.",
     keywords: ["jwt decoder", "decode jwt online", "json web token"],
     tags: ["dev", "crypto"],
@@ -203,6 +214,7 @@ export const tools: Tool[] = [
   {
     slug: "regex-tester",
     name: "Regex tester",
+    tagline: "test a regular expression",
     description: "Match a pattern against sample text and see every group.",
     keywords: ["regex tester", "regular expression tester", "regex match"],
     tags: ["dev", "text"],
@@ -212,6 +224,7 @@ export const tools: Tool[] = [
   {
     slug: "hash-generator",
     name: "Hash generator",
+    tagline: "sha-256 of text or a file",
     description: "SHA-256, SHA-1, SHA-384 and SHA-512 of text or a file.",
     metaDescription:
       "Free SHA-256 and SHA-1 hash generator. Hash text or a file with Web Crypto in your browser, with nothing uploaded, and compare the digest against a checksum.",
@@ -228,6 +241,7 @@ export const tools: Tool[] = [
   {
     slug: "uuid-generator",
     name: "UUID generator",
+    tagline: "random uuid v4",
     description: "Random version 4 UUIDs, one or five hundred at a time.",
     metaDescription:
       "Free UUID v4 generator. Produce one identifier or hundreds at once with the browser's own random source, and copy them all in a click.",
@@ -239,6 +253,7 @@ export const tools: Tool[] = [
   {
     slug: "random-secret",
     name: "Random secret",
+    tagline: "random key generator",
     description: "Random bytes as hex, Base64 or Base64 URL.",
     metaDescription:
       "Free random secret generator for API keys, session secrets and salts. Pick the byte length and the format, generated by your browser and never transmitted.",
@@ -255,6 +270,7 @@ export const tools: Tool[] = [
   {
     slug: "rsa-keypair",
     name: "RSA keypair",
+    tagline: "generate a pem keypair",
     description: "Generate an RSA keypair and export it as PEM.",
     metaDescription:
       "Free RSA key generator. Produce a 2048, 3072 or 4096 bit keypair with Web Crypto and export it as PEM, with the private key never leaving your browser.",
@@ -271,6 +287,7 @@ export const tools: Tool[] = [
   {
     slug: "password-generator",
     name: "Password generator",
+    tagline: "random passwords",
     description: "Random passwords and passphrases from your own machine.",
     keywords: ["password generator", "random password", "passphrase generator"],
     tags: ["crypto"],
@@ -280,6 +297,7 @@ export const tools: Tool[] = [
   {
     slug: "image-compressor",
     name: "Image compressor",
+    tagline: "shrink png and jpeg",
     description: "Shrink a PNG or JPEG without it ever leaving the page.",
     keywords: ["compress image", "image compressor", "reduce image size"],
     tags: ["image"],
@@ -289,6 +307,7 @@ export const tools: Tool[] = [
   {
     slug: "image-converter",
     name: "Image converter",
+    tagline: "png, jpeg, webp and avif",
     description: "Move an image between PNG, JPEG, WebP and AVIF.",
     keywords: ["image converter", "png to jpg", "webp converter"],
     tags: ["image", "data"],
@@ -298,6 +317,7 @@ export const tools: Tool[] = [
   {
     slug: "pdf-merge",
     name: "PDF merge",
+    tagline: "combine pdf files",
     description: "Join several PDFs into one file, in the order you choose.",
     keywords: ["merge pdf", "combine pdf", "pdf merger"],
     tags: ["pdf"],
@@ -307,6 +327,7 @@ export const tools: Tool[] = [
   {
     slug: "pdf-split",
     name: "PDF split",
+    tagline: "extract pdf pages",
     description: "Pull single pages or ranges out of a PDF.",
     keywords: ["split pdf", "extract pdf pages", "pdf splitter"],
     tags: ["pdf"],
@@ -316,6 +337,7 @@ export const tools: Tool[] = [
   {
     slug: "pdf-to-image",
     name: "PDF to image",
+    tagline: "pdf to png or jpg",
     description: "Render the pages of a PDF as PNG or JPEG files.",
     keywords: ["pdf to png", "pdf to jpg", "convert pdf to image"],
     tags: ["pdf", "image"],
@@ -325,6 +347,7 @@ export const tools: Tool[] = [
   {
     slug: "csv-to-json",
     name: "CSV to JSON",
+    tagline: "convert csv and json",
     description: "Convert tabular data in either direction, with a preview.",
     keywords: ["csv to json", "json to csv", "convert csv"],
     tags: ["data", "text"],
@@ -334,6 +357,7 @@ export const tools: Tool[] = [
   {
     slug: "timestamp-converter",
     name: "Timestamp converter",
+    tagline: "unix time to a date",
     description: "Unix time to a readable date and back, in any time zone.",
     keywords: [
       "unix timestamp converter",
@@ -347,6 +371,7 @@ export const tools: Tool[] = [
   {
     slug: "cron-parser",
     name: "Cron parser",
+    tagline: "explain a cron expression",
     description: "Explain a cron expression in plain words and list its runs.",
     keywords: ["cron parser", "crontab expression", "cron schedule explained"],
     tags: ["time", "dev"],
@@ -356,6 +381,7 @@ export const tools: Tool[] = [
   {
     slug: "color-converter",
     name: "Color converter",
+    tagline: "hex, rgb, hsl and oklch",
     description: "HEX, RGB, HSL and OKLCH side by side, with contrast checks.",
     keywords: ["hex to rgb", "color converter", "hsl converter"],
     tags: ["color", "image"],
@@ -365,6 +391,7 @@ export const tools: Tool[] = [
   {
     slug: "qr-code",
     name: "QR code",
+    tagline: "qr code generator",
     description: "Turn a link or a block of text into a QR code to download.",
     keywords: ["qr code generator", "make qr code", "url to qr"],
     tags: ["web", "image"],

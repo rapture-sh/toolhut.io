@@ -34,7 +34,7 @@ export function CaseConverterTool() {
           value={input}
           onChange={setInput}
           placeholder="parse HTTP response"
-          rows={4}
+          className="h-32"
         />
       </ToolField>
       <ul className="flex flex-col gap-2">

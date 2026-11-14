@@ -92,7 +92,7 @@ export function HashGeneratorTool() {
             setText(value);
           }}
           placeholder="Type or paste what you want hashed"
-          rows={8}
+          className="h-56"
         />
       </ToolField>
 
@@ -100,7 +100,7 @@ export function HashGeneratorTool() {
         <ToolOutput
           value={digest}
           placeholder="The hex digest appears here."
-          className="min-h-20"
+          className="h-24"
         />
       </ToolField>
     </div>

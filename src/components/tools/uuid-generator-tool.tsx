@@ -49,7 +49,7 @@ export function UuidGeneratorTool() {
         label="UUID v4"
         action={<CopyButton value={values.join("\n")} />}
       >
-        <ToolOutput value={values.join("\n")} className="min-h-72" />
+        <ToolOutput value={values.join("\n")} className="h-96" />
       </ToolField>
     </div>
   );

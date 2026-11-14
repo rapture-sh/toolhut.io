@@ -39,14 +39,14 @@ export function SlugifyTool() {
           value={input}
           onChange={setInput}
           placeholder="Crème brûlée, and other things"
-          rows={4}
+          className="h-32"
         />
       </ToolField>
       <ToolField label="Slug" action={<CopyButton value={slug} />}>
         <ToolOutput
           value={slug}
           placeholder="The slug appears here."
-          className="min-h-20"
+          className="h-32"
         />
       </ToolField>
     </div>

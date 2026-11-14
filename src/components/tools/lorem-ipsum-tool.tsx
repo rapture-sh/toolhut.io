@@ -10,6 +10,7 @@ import {
   ToolOutput,
 } from "~/components/tools/tool-io";
 import { Button } from "~/components/ui/button";
+import { Checkbox } from "~/components/ui/checkbox";
 import { Input } from "~/components/ui/input";
 import { generateLorem, type LoremUnit } from "~/utils/lorem-ipsum";
 
@@ -36,44 +37,56 @@ export function LoremIpsumTool() {
 
   return (
     <div className="flex flex-col gap-5">
-      <ToolOptions>
+      <div className="flex flex-col gap-4">
         <Segmented
           label="Unit"
           value={unit}
           options={UNITS}
           onChange={setUnit}
         />
-        <label
-          htmlFor="lorem-count"
-          className="flex items-center gap-2 text-sm"
-        >
-          <span className="text-muted-foreground">How many</span>
-          <Input
-            id="lorem-count"
-            type="number"
-            min={1}
-            max={100}
-            value={count}
-            onChange={(event) => setCount(Number(event.target.value))}
-            className="h-10 w-24 rounded-full bg-card px-4"
-          />
-        </label>
-        <label className="flex items-center gap-2 text-sm text-muted-foreground">
-          <input
-            type="checkbox"
-            checked={startWithLorem}
-            onChange={(event) => setStartWithLorem(event.target.checked)}
-            className="size-4 accent-primary"
-          />
-          Start with Lorem ipsum
-        </label>
-        <Button type="button" variant="secondary" size="sm" onClick={generate}>
-          <RefreshCw />
-          Regenerate
-        </Button>
-      </ToolOptions>
+        <ToolOptions className="gap-5">
+          <label
+            htmlFor="lorem-count"
+            className="flex items-center gap-2.5 text-sm"
+          >
+            <span className="text-muted-foreground">How many</span>
+            <Input
+              id="lorem-count"
+              type="number"
+              min={1}
+              max={100}
+              value={count}
+              onChange={(event) =>
+                setCount(Number.parseInt(event.target.value, 10) || 1)
+              }
+              className="h-10 w-20 rounded-full bg-card px-4 text-center"
+            />
+          </label>
+          <label
+            htmlFor="lorem-opener"
+            className="flex cursor-pointer items-center gap-2.5 text-sm text-muted-foreground"
+          >
+            <Checkbox
+              id="lorem-opener"
+              checked={startWithLorem}
+              onCheckedChange={(checked) => setStartWithLorem(checked === true)}
+            />
+            Start with Lorem ipsum
+          </label>
+          <Button
+            type="button"
+            variant="secondary"
+            size="sm"
+            onClick={generate}
+            className="sm:ml-auto"
+          >
+            <RefreshCw />
+            Regenerate
+          </Button>
+        </ToolOptions>
+      </div>
       <ToolField label="Placeholder text" action={<CopyButton value={text} />}>
-        <ToolOutput value={text} className="min-h-72" />
+        <ToolOutput value={text} className="h-96" />
       </ToolField>
     </div>
   );

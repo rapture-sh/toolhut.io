@@ -67,7 +67,6 @@ interface ToolTextareaProps {
   value: string;
   onChange: (value: string) => void;
   placeholder?: string;
-  rows?: number;
   id?: string;
   className?: string;
 }
@@ -76,7 +75,6 @@ export function ToolTextarea({
   value,
   onChange,
   placeholder,
-  rows = 10,
   id,
   className,
 }: ToolTextareaProps) {
@@ -87,9 +85,8 @@ export function ToolTextarea({
       onChange={(event) => onChange(event.target.value)}
       placeholder={placeholder}
       spellCheck={false}
-      rows={rows}
       className={cn(
-        "scroll-slim w-full resize-y rounded-2xl bg-card p-4 font-mono text-sm leading-relaxed outline-none placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-ring/50",
+        "scroll-slim h-72 min-h-32 w-full resize-y rounded-2xl bg-card p-4 font-mono text-sm leading-relaxed outline-none placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-ring/50",
         className,
       )}
     />
@@ -113,7 +110,7 @@ export function ToolOutput({
     <output
       aria-live="polite"
       className={cn(
-        "scroll-slim block max-h-[32rem] min-h-56 w-full overflow-auto whitespace-pre-wrap break-words rounded-2xl bg-card p-4 font-mono text-sm leading-relaxed",
+        "scroll-slim block h-72 w-full overflow-auto whitespace-pre-wrap break-words rounded-2xl bg-card p-4 font-mono text-sm leading-relaxed",
         className,
       )}
     >
@@ -130,11 +127,16 @@ export function ToolOutput({
 
 interface ToolOptionsProps {
   children: ReactNode;
+  className?: string;
 }
 
 /** A row of controls that wraps instead of overflowing on a phone. */
-export function ToolOptions({ children }: ToolOptionsProps) {
-  return <div className="flex flex-wrap items-center gap-2">{children}</div>;
+export function ToolOptions({ children, className }: ToolOptionsProps) {
+  return (
+    <div className={cn("flex flex-wrap items-center gap-3", className)}>
+      {children}
+    </div>
+  );
 }
 
 interface SegmentedProps<T extends string> {
@@ -151,7 +153,7 @@ export function Segmented<T extends string>({
   onChange,
 }: SegmentedProps<T>) {
   return (
-    <fieldset className="flex flex-wrap gap-1 rounded-full bg-card p-1">
+    <fieldset className="flex w-fit max-w-full flex-wrap gap-1 rounded-full bg-card p-1">
       <legend className="sr-only">{label}</legend>
       {options.map((option) => (
         <Button

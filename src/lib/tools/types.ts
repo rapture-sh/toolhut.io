@@ -24,6 +24,11 @@ export interface Tool {
   /** One sentence. Shown on the card and as the page description. */
   description: string;
   /**
+   * A few words for the page title, which reads `name - tagline - toolhut`.
+   * Keep it short: the whole title has to fit in a search result.
+   */
+  tagline: string;
+  /**
    * The page's own description, written for search results rather than for a
    * card. Falls back to `description` when a tool does not need its own.
    */
