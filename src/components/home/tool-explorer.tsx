@@ -53,8 +53,12 @@ export function ToolExplorer() {
       );
     },
     onEscape: () => setOpen(false),
+    popular: false,
   });
   const { query, setQuery } = search;
+  // The box sits on top of the grid, so it stays shut until there is
+  // something to say.
+  const showing = open && query.trim() !== "";
 
   useEffect(() => {
     // Arriving with a search already in the address means the answer is on
@@ -133,7 +137,7 @@ export function ToolExplorer() {
               id={SEARCH_FIELD_ID}
               type="search"
               role="combobox"
-              aria-expanded={open}
+              aria-expanded={showing}
               aria-controls={listId}
               aria-autocomplete="list"
               aria-activedescendant={
@@ -152,7 +156,7 @@ export function ToolExplorer() {
               className="h-16 rounded-full bg-card pl-14 pr-6 text-lg"
             />
           </div>
-          {open && (
+          {showing && (
             <div className="absolute inset-x-0 top-[calc(100%+0.5rem)] z-40 overflow-hidden rounded-3xl bg-popover text-left shadow-2xl ring-1 ring-border">
               <SearchResults
                 id={listId}

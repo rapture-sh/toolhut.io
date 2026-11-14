@@ -14,6 +14,11 @@ interface ToolSearchOptions {
   /** Enter with nothing highlighted: search for the words themselves. */
   onSubmit: (query: string) => void;
   onEscape?: () => void;
+  /**
+   * Offer a few popular tools before anything is typed. The home page does
+   * not, because its box hangs over the grid and would cover it up.
+   */
+  popular?: boolean;
 }
 
 export interface ToolSearch {
@@ -38,6 +43,7 @@ export function useToolSearch({
   onSelect,
   onSubmit,
   onEscape,
+  popular = true,
 }: ToolSearchOptions): ToolSearch {
   const [query, setStoredQuery] = useState("");
   const [active, setActive] = useState(-1);
@@ -46,11 +52,11 @@ export function useToolSearch({
     const needle = query.trim();
 
     if (needle === "") {
-      const popular = popularTools(SUGGESTION_LIMIT);
+      const offered = popular ? popularTools(SUGGESTION_LIMIT) : [];
       return {
         heading: "Popular",
-        suggestions: popular,
-        total: popular.length,
+        suggestions: offered,
+        total: offered.length,
       };
     }
 
@@ -63,7 +69,7 @@ export function useToolSearch({
       suggestions: found.slice(0, SUGGESTION_LIMIT),
       total: found.length,
     };
-  }, [query]);
+  }, [query, popular]);
 
   // Typing moves the goalposts, so the keyboard starts again from the field.
   const setQuery = useCallback((value: string) => {

@@ -39,14 +39,35 @@ describe("<ToolExplorer />", () => {
     window.history.replaceState(null, "", "/");
   });
 
-  it("should offer the popular tools before anything is typed", async () => {
+  it("should suggest nothing until something is typed", async () => {
     const user = userEvent.setup();
     render(<ToolExplorer />);
 
     await user.click(screen.getByRole("combobox", { name: "Search tools" }));
 
-    expect(screen.getByText("Popular")).toBeInTheDocument();
-    expect(names()).toHaveLength(3);
+    expect(
+      screen.queryByRole("listbox", { name: "Tool suggestions" }),
+    ).not.toBeInTheDocument();
+
+    await user.keyboard("base64");
+
+    expect(names()[0]).toContain("Base64");
+  });
+
+  it("should close the suggestions again when the field is emptied", async () => {
+    const user = userEvent.setup();
+    render(<ToolExplorer />);
+
+    const field = screen.getByRole("combobox", { name: "Search tools" });
+    await user.type(field, "base64");
+
+    expect(suggestions()).toBeInTheDocument();
+
+    await user.clear(field);
+
+    expect(
+      screen.queryByRole("listbox", { name: "Tool suggestions" }),
+    ).not.toBeInTheDocument();
   });
 
   it("should put the tool named after the words above one that merely mentions them", async () => {
@@ -127,7 +148,9 @@ describe("<ToolExplorer />", () => {
     expect(
       screen.getByRole("combobox", { name: "Search tools" }),
     ).toHaveFocus();
-    expect(suggestions()).toBeInTheDocument();
+    expect(
+      screen.queryByRole("listbox", { name: "Tool suggestions" }),
+    ).not.toBeInTheDocument();
     pointer.restore();
   });
 
