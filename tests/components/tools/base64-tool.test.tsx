@@ -17,7 +17,7 @@ describe("<Base64Tool />", () => {
     const user = userEvent.setup();
     render(<Base64Tool />);
 
-    await user.click(screen.getByRole("button", { name: "decode" }));
+    await user.click(screen.getByRole("button", { name: /decode/i }));
     await user.type(
       screen.getByPlaceholderText("Paste Base64 here"),
       "not base64!!",
