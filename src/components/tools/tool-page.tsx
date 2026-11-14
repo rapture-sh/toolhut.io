@@ -24,7 +24,7 @@ export function ToolPage({ slug, children }: ToolPageProps) {
   return (
     <>
       <Link
-        href="/#tools"
+        href="/"
         className="inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
       >
         <ArrowLeft className="size-4" strokeWidth={1.8} />
