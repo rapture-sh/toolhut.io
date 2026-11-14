@@ -1,13 +1,13 @@
 "use client";
 
 import { useEffect, useId, useMemo, useState } from "react";
+import { CodeView } from "~/components/tools/code-view";
 import { FileActions } from "~/components/tools/tool-actions";
 import {
   CopyButton,
   Segmented,
   ToolField,
   ToolOptions,
-  ToolOutput,
   ToolPanes,
   ToolTextarea,
 } from "~/components/tools/tool-io";
@@ -134,10 +134,11 @@ export function SvgOptimizerTool() {
           />
         </ToolField>
         <ToolField label="Optimized" action={<CopyButton value={optimized} />}>
-          <ToolOutput
+          <CodeView
             value={optimized}
             error={error}
             placeholder="The optimized markup appears here."
+            language="xml"
           />
         </ToolField>
       </ToolPanes>

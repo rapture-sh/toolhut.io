@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { JsonView } from "~/components/tools/json-view";
+import { CodeView } from "~/components/tools/code-view";
 import {
   CopyButton,
   ToolField,
@@ -128,10 +128,11 @@ export function JwtDecoderTool() {
             <CopyButton value={decoded ? formatJson(decoded.header) : ""} />
           }
         >
-          <JsonView
-            value={decoded?.header}
-            empty={!decoded}
+          <CodeView
+            value={decoded ? formatJson(decoded.header) : ""}
+            language="json"
             placeholder="The header appears here."
+            fit
           />
         </ToolField>
         <ToolField
@@ -140,10 +141,11 @@ export function JwtDecoderTool() {
             <CopyButton value={decoded ? formatJson(decoded.payload) : ""} />
           }
         >
-          <JsonView
-            value={decoded?.payload}
-            empty={!decoded}
+          <CodeView
+            value={decoded ? formatJson(decoded.payload) : ""}
+            language="json"
             placeholder="The payload appears here."
+            fit
           />
         </ToolField>
       </ToolPanes>

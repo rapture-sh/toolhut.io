@@ -12,7 +12,10 @@ describe("<JsonFormatterTool />", () => {
     await user.paste('{"b":1,"a":2}');
     await user.click(screen.getByRole("checkbox", { name: /sort keys/i }));
 
-    expect(screen.getByText(/"a": 2,\s+"b": 1/)).toBeInTheDocument();
+    // The output is drawn as coloured pieces, so it is read back as a whole.
+    expect(screen.getByLabelText("Formatted").textContent).toMatch(
+      /"a": 2,\s+"b": 1/,
+    );
   });
 
   it("says which line and column the mistake is on", async () => {

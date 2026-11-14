@@ -1,12 +1,12 @@
 "use client";
 
 import { useCallback, useMemo, useState } from "react";
+import { CodeView } from "~/components/tools/code-view";
 import { FileActions, type OutputFile } from "~/components/tools/tool-actions";
 import {
   Segmented,
   ToolField,
   ToolOptions,
-  ToolOutput,
   ToolPanes,
   ToolTextarea,
 } from "~/components/tools/tool-io";
@@ -136,7 +136,7 @@ export function SqlFormatterTool() {
           label={formatting ? "Formatted" : "One line"}
           action={<FileActions file={file} disabled={output === ""} />}
         >
-          <ToolOutput value={output} error={error} />
+          <CodeView language="sql" value={output} error={error} />
         </ToolField>
       </ToolPanes>
     </div>

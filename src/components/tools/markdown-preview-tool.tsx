@@ -1,11 +1,11 @@
 "use client";
 
 import { useCallback, useMemo, useState } from "react";
+import { CodeView } from "~/components/tools/code-view";
 import { FileActions, type OutputFile } from "~/components/tools/tool-actions";
 import {
   Segmented,
   ToolField,
-  ToolOutput,
   ToolPanes,
   ToolTextarea,
 } from "~/components/tools/tool-io";
@@ -72,7 +72,11 @@ export function MarkdownPreviewTool() {
               )}
             </div>
           ) : (
-            <ToolOutput value={html} placeholder="The HTML appears here." />
+            <CodeView
+              language="xml"
+              value={html}
+              placeholder="The HTML appears here."
+            />
           )}
         </ToolField>
       </ToolPanes>

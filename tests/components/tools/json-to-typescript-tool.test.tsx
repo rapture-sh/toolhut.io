@@ -13,8 +13,11 @@ describe("<JsonToTypescriptTool />", () => {
     await user.clear(screen.getByLabelText("Root name"));
     await user.type(screen.getByLabelText("Root name"), "Payload");
 
-    expect(screen.getByText(/export interface Payload/)).toBeInTheDocument();
-    expect(screen.getByText(/export interface User/)).toBeInTheDocument();
+    // The output is drawn as coloured pieces, so it is read back as a whole.
+    const output = screen.getByLabelText("TypeScript").textContent;
+
+    expect(output).toContain("export interface Payload");
+    expect(output).toContain("export interface User");
   });
 
   it("explains a sample that is not JSON", async () => {

@@ -1,11 +1,11 @@
 "use client";
 
 import { useCallback, useMemo, useState } from "react";
+import { CodeView } from "~/components/tools/code-view";
 import { FileActions, type OutputFile } from "~/components/tools/tool-actions";
 import {
   ToolField,
   ToolOptions,
-  ToolOutput,
   ToolPanes,
   ToolTextarea,
 } from "~/components/tools/tool-io";
@@ -76,10 +76,11 @@ export function JsonToTypescriptTool() {
           label="TypeScript"
           action={<FileActions file={file} disabled={output === ""} />}
         >
-          <ToolOutput
+          <CodeView
             value={output}
             error={error}
             placeholder="The interfaces appear here."
+            language="typescript"
           />
         </ToolField>
       </ToolPanes>
