@@ -10,10 +10,19 @@ concurrency:
   group: checks-${{ github.ref }}
   cancel-in-progress: true
 
+# Every job here runs on Blacksmith, which needs the Blacksmith GitHub App installed on this
+# repository. Stay on 2vcpu: a job asking for a label this account's plan does not serve,
+# which is any larger size and every `blacksmith-*-arm` label, is accepted and then queues
+# forever rather than failing.
+#
+# Blacksmith also intercepts the Actions cache API, and can answer
+# `400 Default branch not found for repository` for a repository it has not picked up yet,
+# which makes the `actions/setup-node` cache step warn. That is their end. Drop the cache
+# line rather than debugging it.
 jobs:
   lint:
     name: Lint
-    runs-on: ubuntu-latest
+    runs-on: blacksmith-2vcpu-ubuntu-2404
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
@@ -26,7 +35,7 @@ jobs:
 
   typecheck:
     name: Typecheck
-    runs-on: ubuntu-latest
+    runs-on: blacksmith-2vcpu-ubuntu-2404
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
@@ -39,7 +48,7 @@ jobs:
 
   test:
     name: Test
-    runs-on: ubuntu-latest
+    runs-on: blacksmith-2vcpu-ubuntu-2404
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
