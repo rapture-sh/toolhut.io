@@ -27,7 +27,7 @@ is representing the project.
 
 ## Reporting
 
-Report problems to the maintainers at [github.com/rapture-sh](https://github.com/rapture-sh)
+Report problems to the maintainers at [github.com/rapturedotsh](https://github.com/rapturedotsh)
 by opening a private security advisory or contacting a maintainer directly. Reports are
 handled discreetly. Maintainers may edit, remove or block, and will explain when they do.
 

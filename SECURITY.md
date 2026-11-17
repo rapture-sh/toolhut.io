@@ -5,7 +5,7 @@
 Please do **not** open a public issue for a security problem.
 
 Report it privately through GitHub:
-[Security → Report a vulnerability](https://github.com/rapture-sh/toolhut.io/security/advisories/new).
+[Security → Report a vulnerability](https://github.com/rapturedotsh/toolhut.io/security/advisories/new).
 
 Include what you found, how to reproduce it, and what an attacker could do with it.
 Expect an acknowledgement within a few days.

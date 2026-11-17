@@ -12,7 +12,7 @@
   <a href="https://toolhut.io"><strong>Open toolhut</strong></a> ·
   <a href="./CONTRIBUTING.md">Contributing</a> ·
   <a href="./AGENTS.md">Conventions</a> ·
-  <a href="https://github.com/rapture-sh/toolhut.io/issues">Issues</a> ·
+  <a href="https://github.com/rapturedotsh/toolhut.io/issues">Issues</a> ·
   <a href="https://rapture.sh">Rapture</a>
 </p>
 
@@ -40,7 +40,7 @@ in your own tab.
 Requires [Node.js](https://nodejs.org) 20+ and [pnpm](https://pnpm.io) 10+.
 
 ```bash
-git clone https://github.com/rapture-sh/toolhut.io.git
+git clone https://github.com/rapturedotsh/toolhut.io.git
 cd toolhut.io
 pnpm install
 pnpm dev

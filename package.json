@@ -1,5 +1,5 @@
 {
-  "name": "@rapture-sh/toolhut.io",
+  "name": "@rapturedotsh/toolhut.io",
   "version": "0.1.0",
   "private": true,
   "description": "Open source, client-side tools that run entirely in your browser.",
@@ -7,10 +7,10 @@
   "homepage": "https://toolhut.io",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rapture-sh/toolhut.io.git"
+    "url": "git+https://github.com/rapturedotsh/toolhut.io.git"
   },
   "bugs": {
-    "url": "https://github.com/rapture-sh/toolhut.io/issues"
+    "url": "https://github.com/rapturedotsh/toolhut.io/issues"
   },
   "scripts": {
     "dev": "next dev",

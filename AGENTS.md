@@ -279,8 +279,8 @@ failing, which is a slow way to find out.
 
 ## Dependencies and protection
 
-Renovate owns every version update, under one policy shared by every rapture-sh repository:
-`renovate-config.json` in `rapture-sh/.github`, which `.github/renovate.json` here extends
+Renovate owns every version update, under one policy shared by every rapturedotsh repository:
+`renovate-config.json` in `rapturedotsh/.github`, which `.github/renovate.json` here extends
 and nothing else. It holds a new release for seven days before offering it, unless the
 dependency carries a published advisory, which skips the wait. Dependabot is enabled for
 alerts and security fixes only, with no `dependabot.yml`, so one bump never arrives as two

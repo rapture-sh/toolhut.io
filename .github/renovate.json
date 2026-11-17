@@ -1,4 +1,4 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["local>rapture-sh/.github:renovate-config"]
+  "extends": ["local>rapturedotsh/.github:renovate-config"]
 }

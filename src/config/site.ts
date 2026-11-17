@@ -5,11 +5,11 @@ export const siteConfig = {
   description:
     "Free online tools that run entirely in your browser: converters, encoders, image and PDF utilities. Open source, no uploads, no accounts, no servers.",
   links: {
-    github: "https://github.com/rapture-sh/toolhut.io",
-    issues: "https://github.com/rapture-sh/toolhut.io/issues",
+    github: "https://github.com/rapturedotsh/toolhut.io",
+    issues: "https://github.com/rapturedotsh/toolhut.io/issues",
     contributing:
-      "https://github.com/rapture-sh/toolhut.io/blob/main/CONTRIBUTING.md",
-    license: "https://github.com/rapture-sh/toolhut.io/blob/main/LICENSE",
+      "https://github.com/rapturedotsh/toolhut.io/blob/main/CONTRIBUTING.md",
+    license: "https://github.com/rapturedotsh/toolhut.io/blob/main/LICENSE",
     /** Tagged, so Rapture can see the traffic toolhut sends them. */
     rapture:
       "https://rapture.sh/?utm_source=toolhut.io&utm_medium=referral&utm_campaign=made-by",
